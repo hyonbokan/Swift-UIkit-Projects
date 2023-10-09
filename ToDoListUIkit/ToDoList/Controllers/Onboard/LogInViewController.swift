@@ -61,6 +61,7 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         addSubviews()
+        addButtonActions()
     }
     
     override func viewDidLayoutSubviews() {
@@ -94,5 +95,14 @@ class LogInViewController: UIViewController {
         view.addSubview(registerButton)
     }
     
-
+    private func addButtonActions() {
+        registerButton.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
+    }
+    
+    @objc private func didTapRegister() {
+        print("Tap register")
+        let vc = RegisterViewController()
+//        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

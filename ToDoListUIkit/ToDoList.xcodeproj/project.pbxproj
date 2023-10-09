@@ -17,6 +17,8 @@
 		BD3EABAC2AD0304C00582381 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3EABAB2AD0304C00582381 /* MainViewController.swift */; };
 		BD3EABB12AD0304C00582381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD3EABB02AD0304C00582381 /* Assets.xcassets */; };
 		BD3EABB42AD0304C00582381 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD3EABB22AD0304C00582381 /* LaunchScreen.storyboard */; };
+		BD3FA5BA2AD289720019213C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3FA5B92AD289720019213C /* AuthManager.swift */; };
+		BD3FA5BD2AD28AD50019213C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3FA5BC2AD28AD50019213C /* User.swift */; };
 		BD5FEF692AD03DB800708E24 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5FEF682AD03DB800708E24 /* TabBarViewController.swift */; };
 		BD5FEF6B2AD04A9A00708E24 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5FEF6A2AD04A9A00708E24 /* ProfileViewController.swift */; };
 		BD5FEF6E2AD04B1600708E24 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5FEF6D2AD04B1600708E24 /* LogInViewController.swift */; };
@@ -35,6 +37,8 @@
 		BD3EABB02AD0304C00582381 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD3EABB32AD0304C00582381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD3EABB52AD0304C00582381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD3FA5B92AD289720019213C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		BD3FA5BC2AD28AD50019213C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BD5FEF682AD03DB800708E24 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		BD5FEF6A2AD04A9A00708E24 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BD5FEF6D2AD04B1600708E24 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +80,8 @@
 		BD3EABA62AD0304C00582381 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				BD3FA5BB2AD28ACD0019213C /* Models */,
+				BD3FA5B82AD289590019213C /* Managers */,
 				BD5FEF712AD04CF200708E24 /* Views */,
 				BD3EABB52AD0304C00582381 /* Info.plist */,
 				BD2762AE2AD0E77900FD0CD5 /* GoogleService-Info.plist */,
@@ -106,6 +112,22 @@
 				BD5FEF742AD04FF700708E24 /* Extension.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		BD3FA5B82AD289590019213C /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BD3FA5B92AD289720019213C /* AuthManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		BD3FA5BB2AD28ACD0019213C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BD3FA5BC2AD28AD50019213C /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		BD5FEF6C2AD04B0000708E24 /* Onboard */ = {
@@ -213,6 +235,8 @@
 				BD5FEF6E2AD04B1600708E24 /* LogInViewController.swift in Sources */,
 				BD5FEF6B2AD04A9A00708E24 /* ProfileViewController.swift in Sources */,
 				BD5FEF732AD04D0600708E24 /* OnboardHeaderView.swift in Sources */,
+				BD3FA5BD2AD28AD50019213C /* User.swift in Sources */,
+				BD3FA5BA2AD289720019213C /* AuthManager.swift in Sources */,
 				BD3EABA82AD0304C00582381 /* AppDelegate.swift in Sources */,
 				BD3EABAA2AD0304C00582381 /* SceneDelegate.swift in Sources */,
 			);
