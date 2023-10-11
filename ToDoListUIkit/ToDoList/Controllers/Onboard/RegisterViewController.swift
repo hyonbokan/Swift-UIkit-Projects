@@ -59,13 +59,15 @@ class RegisterViewController: UIViewController {
         
         headerView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height/2.0)
         
-        usernameField.frame = CGRect(x: 25, y: headerView.bottom+20, width: view.width-50, height: 50)
+        let fieldHeight: CGFloat = 40
         
-        emailField.frame = CGRect(x: 25, y: usernameField.bottom+10, width: view.width-50, height: 50)
+        usernameField.frame = CGRect(x: 25, y: headerView.bottom, width: view.width-50, height: fieldHeight)
         
-        password.frame = CGRect(x: 25, y: emailField.bottom+10, width: view.width-50, height: 50)
+        emailField.frame = CGRect(x: 25, y: usernameField.bottom+10, width: view.width-50, height: fieldHeight)
         
-        registerButton.frame = CGRect(x: 45, y: password.bottom+20, width: view.width-90, height: 50)
+        password.frame = CGRect(x: 25, y: emailField.bottom+10, width: view.width-50, height: fieldHeight)
+        
+        registerButton.frame = CGRect(x: 45, y: password.bottom+10, width: view.width-90, height: fieldHeight)
     }
     
     private func addSubviews() {

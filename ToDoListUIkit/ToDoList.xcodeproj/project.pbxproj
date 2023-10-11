@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E2DC1BB2AD663F000342726 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DC1BA2AD663F000342726 /* DatabaseManager.swift */; };
 		BD2762AF2AD0E77900FD0CD5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD2762AE2AD0E77900FD0CD5 /* GoogleService-Info.plist */; };
 		BD2762B22AD0E7CF00FD0CD5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BD2762B12AD0E7CF00FD0CD5 /* FirebaseAuth */; };
 		BD2762B42AD0E7CF00FD0CD5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BD2762B32AD0E7CF00FD0CD5 /* FirebaseFirestore */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E2DC1BA2AD663F000342726 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		BD2762AE2AD0E77900FD0CD5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BD2762B72AD128A600FD0CD5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		BD3EABA42AD0304C00582381 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				BD3FA5B92AD289720019213C /* AuthManager.swift */,
+				9E2DC1BA2AD663F000342726 /* DatabaseManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			files = (
 				BD5FEF752AD04FF700708E24 /* Extension.swift in Sources */,
 				BD5FEF692AD03DB800708E24 /* TabBarViewController.swift in Sources */,
+				9E2DC1BB2AD663F000342726 /* DatabaseManager.swift in Sources */,
 				BD3EABAC2AD0304C00582381 /* MainViewController.swift in Sources */,
 				BD2762B82AD128A600FD0CD5 /* TextField.swift in Sources */,
 				BD5FEF702AD04B2100708E24 /* RegisterViewController.swift in Sources */,

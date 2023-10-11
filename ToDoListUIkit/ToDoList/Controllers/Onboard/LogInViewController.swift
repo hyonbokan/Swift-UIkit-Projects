@@ -69,11 +69,13 @@ class LogInViewController: UIViewController {
         
         headerView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height/2.0)
         
-        emailField.frame = CGRect(x: 25, y: headerView.bottom+20, width: view.width-50, height: 50)
+        let fieldHeight: CGFloat = 40
         
-        passwordField.frame = CGRect(x: 25, y: emailField.bottom+10, width: view.width-50, height: 50)
+        emailField.frame = CGRect(x: 25, y: headerView.bottom, width: view.width-50, height: fieldHeight)
         
-        logInButton.frame = CGRect(x: 45, y: passwordField.bottom+20, width: view.width-90, height: 50)
+        passwordField.frame = CGRect(x: 25, y: emailField.bottom+10, width: view.width-50, height: fieldHeight)
+        
+        logInButton.frame = CGRect(x: 45, y: passwordField.bottom+10, width: view.width-80, height: fieldHeight)
         
         registerLabel.frame = CGRect(x: 0, y: view.height - view.safeAreaInsets.bottom - 100, width: view.width, height: 40)
         registerButton.frame = CGRect(x: 0, y: view.height - view.safeAreaInsets.bottom - 60, width: view.width, height: 40)
@@ -97,12 +99,49 @@ class LogInViewController: UIViewController {
     
     private func addButtonActions() {
         registerButton.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
+        logInButton.addTarget(self, action: #selector(didTapLogIn), for: .touchUpInside)
     }
     
     @objc private func didTapRegister() {
-        print("Tap register")
+        print("Register button tapped")
         let vc = RegisterViewController()
 //        present(vc, animated: true)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func didTapLogIn() {
+        print("Log In button tapped")
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+        
+        // trimmingCharacters - trim the space
+        guard let email = emailField.text,
+              let password = passwordField.text,
+              !email.trimmingCharacters(in: .whitespaces).isEmpty,
+              !password.trimmingCharacters(in: .whitespaces).isEmpty,
+              password.count >= 6,
+        email.contains("@") && email.contains(".") else {
+            presentError(title: "Type Error", message: "Be sure to fill email and password correctly.")
+            return
+        }
+        
+        AuthManager.shared.logIn(email: email, password: password) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    let vc = TabBarViewController()
+                    vc.modalPresentationStyle = .fullScreen
+                    self?.present(vc, animated: true, completion: nil)
+                case .failure:
+                    self?.presentError(title: "Log In Error", message: "User does not exist. Please be sure your email and password are correct.")
+                }
+            }
+        }
+    }
+    
+    private func presentError(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        present(alert, animated: true)
     }
 }

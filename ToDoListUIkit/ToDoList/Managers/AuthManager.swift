@@ -16,6 +16,11 @@ final class AuthManager {
     
     let auth = Auth.auth()
     
+    enum AuthError: Error {
+        case newUserCreation
+        case signInFailed
+    }
+    
     public var isSignedIn: Bool {
         return auth.currentUser != nil
     }
@@ -25,17 +30,23 @@ final class AuthManager {
         password: String,
         completion: @escaping (Result<User, Error>) -> Void
     ) {
-        // trimmingCharacters - trim the space
-        guard !email.trimmingCharacters(in: .whitespaces).isEmpty,
-              !password.trimmingCharacters(in: .whitespaces).isEmpty
-        else {
-            return
+        DatabaseManager.shared.findUser(with: email) { [weak self] user in
+            guard let user = user else {
+                completion(.failure(AuthError.signInFailed))
+                return
+            }
+            
+            self?.auth.signIn(withEmail: email, password: password, completion: { result, error in
+                guard result != nil, error == nil else {
+                    completion(.failure(AuthError.signInFailed))
+                    return
+                }
+                //By storing these values in UserDefaults, the app can easily access the username and email of the currently signed-in user without having to fetch them from the database every time.
+                UserDefaults.standard.setValue(user.name, forKey: "username")
+                UserDefaults.standard.setValue(user.email, forKey: "email")
+                completion(.success(user))
+            })
         }
-        guard email.contains("@") && email.contains(".") else {
-            return
-        }
-        
-        return
     }
     
     public func register(
@@ -57,5 +68,16 @@ final class AuthManager {
                 .setData(newUser.asDictionary())
             print("User registered")
         }
+    }
+    
+    public func logOut(completion: @escaping (Bool) -> Void) {
+        do {
+            try auth.signOut()
+            completion(true)
+        } catch {
+            print(error)
+            completion(false)
+        }
+        
     }
 }
