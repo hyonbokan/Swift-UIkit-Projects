@@ -71,11 +71,18 @@ class NewItemViewController: UIViewController {
     
     @objc private func didTapSave() {
         print("Save button tapped")
-        // guard conditions to ensure that there is title, and correct date selected
-        
         let newId = UUID().uuidString
-        let title = titleTextField.text ?? ""
+        // guard conditions to ensure that there is title, and correct date selected
         let dueDate = datePicker.date.timeIntervalSince1970
+        guard let title = titleTextField.text,
+              title != "",
+              dueDate < Date().timeIntervalSince1970 // check correct logic for the date
+        else {
+            let ac = UIAlertController(title: "Error", message: "Please input the title and correct date", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Dismiss", style: .default))
+            present(ac, animated: true)
+            return
+        }
         
         let newItem = ToDoListItem(
             id: newId,

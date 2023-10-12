@@ -56,4 +56,12 @@ final class DatabaseManager {
         }
     }
     
+    public func findUser() {
+        
+    }
+    
+    public func findItems() {
+        
+    }
+    
 }
