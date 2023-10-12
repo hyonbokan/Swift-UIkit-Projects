@@ -8,7 +8,7 @@
 import Foundation
 
 struct NewItem: Codable {
-    var title: String
-    var dueDate = Date()
+    let title: String
+    let dueDate: TimeInterval
     var isDone: Bool
 }

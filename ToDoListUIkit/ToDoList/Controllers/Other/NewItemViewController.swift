@@ -35,11 +35,12 @@ class NewItemViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         view.addSubview(datePicker)
         view.addSubview(titleTextField)
         view.addSubview(saveButton)
-        view.backgroundColor = .systemBackground
-
+        
+        saveButton.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,7 +61,38 @@ class NewItemViewController: UIViewController {
         let buttonSize = CGSize(width: view.width - 50, height: 50)
         let buttonX = (view.width - buttonSize.width) / 2
 
-        saveButton.frame = CGRect(x: buttonX, y: datePicker.bottom + 30, width: buttonSize.width, height: buttonSize.height)
-
+        saveButton.frame = CGRect(
+            x: buttonX,
+            y: datePicker.bottom + 30,
+            width: buttonSize.width,
+            height: buttonSize.height
+        )
+    }
+    
+    @objc private func didTapSave() {
+        print("Save button tapped")
+        // guard conditions to ensure that there is title, and correct date selected
+        
+        let newId = UUID().uuidString
+        let title = titleTextField.text ?? ""
+        let dueDate = datePicker.date.timeIntervalSince1970
+        
+        let newItem = ToDoListItem(
+            id: newId,
+            title: title,
+            dueDate: dueDate,
+            createdDate: Date().timeIntervalSince1970,
+            isDone: false
+        )
+        
+        DatabaseManager.shared.saveItem(item: newItem) { [weak self] result in
+            guard result else {
+                print("Could not post to DB")
+                return
+            }
+            DispatchQueue.main.async {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }
