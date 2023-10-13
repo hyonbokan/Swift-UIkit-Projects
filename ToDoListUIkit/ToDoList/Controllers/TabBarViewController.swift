@@ -11,9 +11,22 @@ class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        guard let username = UserDefaults.standard.string(forKey: "username"),
+              let userId = UserDefaults.standard.string(forKey: "userId"),
+              let email = UserDefaults.standard.string(forKey: "email"),
+              let date = UserDefaults.standard.value(forKey: "joinedDate") as? TimeInterval
+        else {
+            print("Cannot load tab bar vc")
+            return
+        }
+//        print(date)
+//        let joinedDate = Date(timeIntervalSince1970: dateInterval)
+        let currentUser = User(id: userId, name: username, email: email, joined: date)
 
         let home = MainViewController()
-        let profile = ProfileViewController()
+        let profile = ProfileViewController(user: currentUser)
         
         let nav1 = UINavigationController(rootViewController: home)
         let nav2 = UINavigationController(rootViewController: profile)

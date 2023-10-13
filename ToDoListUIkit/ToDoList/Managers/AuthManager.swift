@@ -44,6 +44,8 @@ final class AuthManager {
                 //By storing these values in UserDefaults, the app can easily access the username and email of the currently signed-in user without having to fetch them from the database every time.
                 UserDefaults.standard.setValue(user.name, forKey: "username")
                 UserDefaults.standard.setValue(user.email, forKey: "email")
+                UserDefaults.standard.setValue(user.id, forKey: "userId")
+                UserDefaults.standard.setValue(user.joined, forKey: "joinedDate")
                 completion(.success(user))
             })
         }

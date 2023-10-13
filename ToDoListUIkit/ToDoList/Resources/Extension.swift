@@ -34,6 +34,15 @@ extension UIView {
     }
 }
 
+extension DateFormatter {
+    static let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }()
+}
+
 extension Encodable {
     func asDictionary() -> [String: Any] {
         guard let data = try? JSONEncoder().encode(self) else {

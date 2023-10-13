@@ -14,7 +14,7 @@ class ToDoListItemTableViewCell: UITableViewCell {
     private var isDone = false
     
     private var viewModel: ToDoListItem?
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
@@ -34,6 +34,8 @@ class ToDoListItemTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         return label
     }()
+    
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -77,7 +79,7 @@ class ToDoListItemTableViewCell: UITableViewCell {
     public func configure(with viewModel: ToDoListItem) {
         self.viewModel = viewModel
         titleLabel.text = viewModel.title
-        dateLabel.text = String(viewModel.dueDate)
+        dateLabel.text = String(Date(timeIntervalSince1970: viewModel.dueDate).formatted(date: .abbreviated, time: .shortened))
     }
     
 }

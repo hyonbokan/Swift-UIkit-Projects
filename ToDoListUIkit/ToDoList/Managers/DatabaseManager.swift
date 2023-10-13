@@ -16,6 +16,10 @@ final class DatabaseManager {
     
     let database = Firestore.firestore()
     
+    /// Find user for authentication
+    /// - Parameters:
+    ///   - email: registered email
+    ///   - completion: returns user email
     public func findUser(
         with email: String,
         completion: @escaping (User?) -> Void
@@ -56,11 +60,38 @@ final class DatabaseManager {
         }
     }
     
-    public func findUser() {
-        
+    public func findUserInfo(
+        userId: String,
+        completion: @escaping (User?) -> Void
+    ) {
+        let ref = database.collection("users")
+        ref.getDocuments { snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data() )}) else {
+                completion(nil)
+                return
+            }
+            let user = users.first(where: { $0.id == userId})
+            completion(user)
+        }
     }
     
-    public func findItems() {
+    public func findItem(
+        userId: String,
+        completion: @escaping (Result<[ToDoListItem], Error>) -> Void
+    ) {
+        let ref = database.collection("users").document(userId).collection("todos")
+        
+        ref.getDocuments { snapshot, error in
+            guard let items = snapshot?.documents.compactMap({ ToDoListItem(with: $0.data())
+            }) else {
+                return
+            }
+            
+            completion(.success(items))
+        }
+    }
+    
+    public func deleteItem() {
         
     }
     

@@ -12,6 +12,7 @@
 		9E1EE4D82AD7A16300C74EA5 /* NewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1EE4D72AD7A16300C74EA5 /* NewItem.swift */; };
 		9E1EE4DA2AD7A32200C74EA5 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1EE4D92AD7A32200C74EA5 /* NewItemViewController.swift */; };
 		9E2DC1BB2AD663F000342726 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DC1BA2AD663F000342726 /* DatabaseManager.swift */; };
+		9E4194CC2AD90DE00002FA24 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E4194CB2AD90DE00002FA24 /* Launch Screen.storyboard */; };
 		BD2762AF2AD0E77900FD0CD5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD2762AE2AD0E77900FD0CD5 /* GoogleService-Info.plist */; };
 		BD2762B22AD0E7CF00FD0CD5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BD2762B12AD0E7CF00FD0CD5 /* FirebaseAuth */; };
 		BD2762B42AD0E7CF00FD0CD5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BD2762B32AD0E7CF00FD0CD5 /* FirebaseFirestore */; };
@@ -21,7 +22,6 @@
 		BD3EABAA2AD0304C00582381 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3EABA92AD0304C00582381 /* SceneDelegate.swift */; };
 		BD3EABAC2AD0304C00582381 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3EABAB2AD0304C00582381 /* MainViewController.swift */; };
 		BD3EABB12AD0304C00582381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD3EABB02AD0304C00582381 /* Assets.xcassets */; };
-		BD3EABB42AD0304C00582381 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD3EABB22AD0304C00582381 /* LaunchScreen.storyboard */; };
 		BD3FA5BA2AD289720019213C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3FA5B92AD289720019213C /* AuthManager.swift */; };
 		BD3FA5BD2AD28AD50019213C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3FA5BC2AD28AD50019213C /* User.swift */; };
 		BD5FEF692AD03DB800708E24 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5FEF682AD03DB800708E24 /* TabBarViewController.swift */; };
@@ -38,6 +38,7 @@
 		9E1EE4D72AD7A16300C74EA5 /* NewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItem.swift; sourceTree = "<group>"; };
 		9E1EE4D92AD7A32200C74EA5 /* NewItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		9E2DC1BA2AD663F000342726 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		9E4194CB2AD90DE00002FA24 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		BD2762AE2AD0E77900FD0CD5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BD2762B72AD128A600FD0CD5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		BD3EABA42AD0304C00582381 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,7 +46,6 @@
 		BD3EABA92AD0304C00582381 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BD3EABAB2AD0304C00582381 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BD3EABB02AD0304C00582381 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BD3EABB32AD0304C00582381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD3EABB52AD0304C00582381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD3FA5B92AD289720019213C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BD3FA5BC2AD28AD50019213C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 				BD3EABA72AD0304C00582381 /* AppDelegate.swift */,
 				BD3EABA92AD0304C00582381 /* SceneDelegate.swift */,
 				BD3EABB02AD0304C00582381 /* Assets.xcassets */,
-				BD3EABB22AD0304C00582381 /* LaunchScreen.storyboard */,
+				9E4194CB2AD90DE00002FA24 /* Launch Screen.storyboard */,
 				BD5FEF742AD04FF700708E24 /* Extension.swift */,
 			);
 			path = Resources;
@@ -245,7 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD3EABB42AD0304C00582381 /* LaunchScreen.storyboard in Resources */,
+				9E4194CC2AD90DE00002FA24 /* Launch Screen.storyboard in Resources */,
 				BD2762AF2AD0E77900FD0CD5 /* GoogleService-Info.plist in Resources */,
 				BD3EABB12AD0304C00582381 /* Assets.xcassets in Resources */,
 			);
@@ -279,17 +279,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		BD3EABB22AD0304C00582381 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD3EABB32AD0304C00582381 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BD3EABB62AD0304C00582381 /* Debug */ = {
@@ -411,13 +400,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KFKP37Q73C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -437,13 +427,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KFKP37Q73C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

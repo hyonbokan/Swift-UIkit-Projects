@@ -28,6 +28,8 @@ class MainViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        fetchItems()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -39,6 +41,26 @@ class MainViewController: UIViewController {
     @objc private func didTapAddItem() {
         let vc = NewItemViewController()
         present(vc, animated: true)
+    }
+    
+    private func fetchItems() {
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else {
+            return
+        }
+        DatabaseManager.shared.findItem(userId: userId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case.success(let items):
+//                    print(items)
+                    self?.viewModels = items
+                    print(self?.viewModels)
+                    self?.tableView.reloadData()
+                case .failure(let error):
+                    print(error)
+                    break
+                }
+            }
+        }
     }
 
 
@@ -56,6 +78,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.configure(with: viewModels[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
+            print("Delete action!")
+        }
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
     }
     
 }
