@@ -40,15 +40,14 @@ final class DatabaseManager {
     
     public func saveItem(
         item: ToDoListItem,
+        itemId: String,
         completion: @escaping (Bool) -> Void
     ) {
         guard let userId = Auth.auth().currentUser?.uid
-//              let data = item.asDictionary()
         else {
             completion(false)
             return
         }
-        let itemId = UUID().uuidString
         // reference in db
         let ref = database
                     .collection("users")
@@ -91,8 +90,25 @@ final class DatabaseManager {
         }
     }
     
-    public func deleteItem() {
-        
+    public func deleteItem(
+        userId: String,
+        itemId: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        let ref = database
+            .collection("users")
+            .document(userId)
+            .collection("todos")
+            .document(itemId)
+        ref.delete() { error in
+            if let error = error {
+                print("Error deleting the item in db: \(error.localizedDescription)")
+                completion(false)
+            }
+            else {
+                completion(true)
+            }
+        }
     }
     
 }

@@ -87,14 +87,10 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(navLabel)
-        view.addSubview(profileImage)
-        view.addSubview(logOutButton)
-        view.addSubview(nameLabel)
-        view.addSubview(emailLabel)
-        view.addSubview(dateLabel)
-        
+        addSubview()
         fetchUserInfo(user: currentUser)
+        
+        logOutButton.addTarget(self, action: #selector(didTapLogOut), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -135,6 +131,29 @@ class ProfileViewController: UIViewController {
             height: 40
         )
         
+    }
+    
+    private func addSubview() {
+        view.addSubview(navLabel)
+        view.addSubview(profileImage)
+        view.addSubview(logOutButton)
+        view.addSubview(nameLabel)
+        view.addSubview(emailLabel)
+        view.addSubview(dateLabel)
+    }
+    
+    @objc private func didTapLogOut() {
+        print("Log out")
+        AuthManager.shared.logOut { [weak self] success in
+            if success {
+                DispatchQueue.main.async {
+                    let vc = LogInViewController()
+                    let navVC = UINavigationController(rootViewController: vc)
+                    navVC.modalPresentationStyle = .fullScreen
+                    self?.present(navVC, animated: true)
+                }
+            }
+        }
     }
     
     private func fetchUserInfo(user: User) {

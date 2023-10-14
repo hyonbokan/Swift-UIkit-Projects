@@ -22,7 +22,7 @@ class TabBarViewController: UITabBarController {
             return
         }
 //        print(date)
-//        let joinedDate = Date(timeIntervalSince1970: dateInterval)
+//        let joinedDate = Date(timeIntervalSince1970: date)
         let currentUser = User(id: userId, name: username, email: email, joined: date)
 
         let home = MainViewController()

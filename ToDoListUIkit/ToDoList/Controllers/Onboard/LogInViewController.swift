@@ -110,7 +110,6 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func didTapLogIn() {
-        print("Log In button tapped")
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
         

@@ -40,6 +40,10 @@ class MainViewController: UIViewController {
     
     @objc private func didTapAddItem() {
         let vc = NewItemViewController()
+        vc.completion = { [weak self] in
+            self?.fetchItems()
+            self?.tableView.reloadData()
+        }
         present(vc, animated: true)
     }
     
@@ -51,9 +55,8 @@ class MainViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case.success(let items):
-//                    print(items)
                     self?.viewModels = items
-                    print(self?.viewModels)
+//                    print(self?.viewModels)
                     self?.tableView.reloadData()
                 case .failure(let error):
                     print(error)
@@ -82,7 +85,19 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
-            print("Delete action!")
+            guard let userId = UserDefaults.standard.string(forKey: "userId") else {
+                return
+            }
+            
+            let cell = self.viewModels[indexPath.row]
+            print(cell.id)
+            DatabaseManager.shared.deleteItem(userId: userId, itemId: cell.id) { success in
+                if success {
+                    self.viewModels.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+                completion(success)
+            }
         }
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         return configuration

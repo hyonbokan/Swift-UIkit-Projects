@@ -9,6 +9,8 @@ import UIKit
 
 class NewItemViewController: UIViewController {
     
+    var completion: (() -> Void)?
+    
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Title"
@@ -91,12 +93,13 @@ class NewItemViewController: UIViewController {
             isDone: false
         )
         
-        DatabaseManager.shared.saveItem(item: newItem) { [weak self] result in
+        DatabaseManager.shared.saveItem(item: newItem, itemId: newId) { [weak self] result in
             guard result else {
                 print("Could not post to DB")
                 return
             }
             DispatchQueue.main.async {
+                self?.completion?()
                 self?.dismiss(animated: true, completion: nil)
             }
         }
