@@ -90,6 +90,35 @@ final class DatabaseManager {
         }
     }
     
+    public func toggleIsDone(
+        item: ToDoListItem,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let userId = Auth.auth().currentUser?.uid
+        else {
+            completion(false)
+            return
+        }
+        var itemCopy = item
+        print("Before item copy isDone: \(itemCopy.isDone)")
+        itemCopy.setDone(!item.isDone)
+        
+        let ref = database.collection("users")
+            .document(userId)
+            .collection("todos")
+            .document(itemCopy.id)
+        
+        ref.setData(itemCopy.asDictionary()) { error in
+            if let error = error {
+                print("Error updating the item: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("After item copy isDone: \(itemCopy.isDone)")
+                completion(true)
+            }
+        }
+    }
+    
     public func deleteItem(
         userId: String,
         itemId: String,

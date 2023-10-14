@@ -69,7 +69,7 @@ class MainViewController: UIViewController {
 
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModels.count
@@ -79,6 +79,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ToDoListItemTableViewCell.identifier) as? ToDoListItemTableViewCell else {
             fatalError()
         }
+        cell.delegate = self
         cell.configure(with: viewModels[indexPath.row])
         return cell
     }
@@ -90,7 +91,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             let cell = self.viewModels[indexPath.row]
-            print(cell.id)
             DatabaseManager.shared.deleteItem(userId: userId, itemId: cell.id) { success in
                 if success {
                     self.viewModels.remove(at: indexPath.row)
@@ -103,4 +103,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return configuration
     }
     
+}
+
+extension MainViewController: ToDoListItemTableViewCellDelegate {
+    func toDoListItemTableViewCell(_ cell: ToDoListItemTableViewCell) {
+        guard var viewModel = cell.viewModel else {
+            return
+        }
+        DatabaseManager.shared.toggleIsDone(item: viewModel) { result in
+                    if result {
+                        // Update the viewModel's isDone property
+                        viewModel.setDone(!viewModel.isDone)
+                        
+                        // Reconfigure the cell
+                        cell.configure(with: viewModel)
+                    } else {
+                        // Handle the error, maybe show an alert or a message to the user
+                        print("Error")
+                    }
+                }
+            }
 }

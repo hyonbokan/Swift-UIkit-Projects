@@ -7,13 +7,20 @@
 
 import UIKit
 
+protocol ToDoListItemTableViewCellDelegate: AnyObject {
+    func toDoListItemTableViewCell(_ cell: ToDoListItemTableViewCell)
+}
+
 class ToDoListItemTableViewCell: UITableViewCell {
     
     static let identifier = "ToDoListItemTableViewCell"
     
     private var isDone = false
     
-    private var viewModel: ToDoListItem?
+    var viewModel: ToDoListItem?
+    
+    weak var delegate: ToDoListItemTableViewCellDelegate?
+
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -35,7 +42,12 @@ class ToDoListItemTableViewCell: UITableViewCell {
         return label
     }()
     
-    
+    private let checkButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "circle"), for: .normal)
+        button.clipsToBounds = true
+        return button
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -43,6 +55,9 @@ class ToDoListItemTableViewCell: UITableViewCell {
         contentView.clipsToBounds = true
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
+        contentView.addSubview(checkButton)
+        
+        checkButton.addTarget(self, action: #selector(didTapCheckButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -64,22 +79,37 @@ class ToDoListItemTableViewCell: UITableViewCell {
         titleLabel.frame = CGRect(
             x: 10,
             y: 0,
-            width: contentView.width,
+            width: contentView.width - 40,
             height: contentView.height-dateLabel.height-2
         )
         
         dateLabel.frame = CGRect(
             x: 10,
             y: contentView.height-dateLabel.height-2,
-            width: contentView.width,
+            width: contentView.width - 40,
             height: dateLabel.height
         )
+        let buttonSize: CGFloat = 20
+        checkButton.frame = CGRect(
+            x: contentView.width - buttonSize - 10,
+            y: (contentView.height - buttonSize) / 2,
+            width: buttonSize,
+            height: buttonSize
+        )
+    }
+    
+    @objc private func didTapCheckButton() {
+        guard let viewModel = viewModel else { return }
+        delegate?.toDoListItemTableViewCell(self)
     }
     
     public func configure(with viewModel: ToDoListItem) {
         self.viewModel = viewModel
         titleLabel.text = viewModel.title
         dateLabel.text = String(Date(timeIntervalSince1970: viewModel.dueDate).formatted(date: .abbreviated, time: .shortened))
+        
+        let imageName = viewModel.isDone ? "checkmark.circle.fill" : "circle"
+        checkButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
 }
