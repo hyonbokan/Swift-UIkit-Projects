@@ -99,7 +99,7 @@ class ToDoListItemTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapCheckButton() {
-        guard let viewModel = viewModel else { return }
+        guard self.viewModel != nil else { return }
         delegate?.toDoListItemTableViewCell(self)
     }
     

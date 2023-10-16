@@ -21,6 +21,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationItem.title = "To Do List"
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [
+            .font: UIFont.boldSystemFont(ofSize: 35)
+        ]
+        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
         
@@ -112,13 +119,9 @@ extension MainViewController: ToDoListItemTableViewCellDelegate {
         }
         DatabaseManager.shared.toggleIsDone(item: viewModel) { result in
                     if result {
-                        // Update the viewModel's isDone property
                         viewModel.setDone(!viewModel.isDone)
-                        
-                        // Reconfigure the cell
                         cell.configure(with: viewModel)
                     } else {
-                        // Handle the error, maybe show an alert or a message to the user
                         print("Error")
                     }
                 }

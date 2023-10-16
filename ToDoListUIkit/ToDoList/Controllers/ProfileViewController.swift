@@ -24,15 +24,6 @@ class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // Profile Label
-    private let navLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Profile"
-        label.font = UIFont.boldSystemFont(ofSize: 40)
-//        label.backgroundColor = .red
-        return label
-    }()
-    
     // Profile image
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -87,6 +78,14 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        
+        navigationItem.title = "Profile"
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [
+            .font: UIFont.boldSystemFont(ofSize: 40)
+        ]
+        
         addSubview()
         fetchUserInfo(user: currentUser)
         
@@ -96,7 +95,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        navLabel.frame = CGRect(x: 0, y: 150, width: view.width/3, height: 50)
         let imageSize: CGFloat = view.width/2.5
         profileImage.layer.cornerRadius = imageSize/2
         profileImage.frame = CGRect(
@@ -134,7 +132,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func addSubview() {
-        view.addSubview(navLabel)
         view.addSubview(profileImage)
         view.addSubview(logOutButton)
         view.addSubview(nameLabel)

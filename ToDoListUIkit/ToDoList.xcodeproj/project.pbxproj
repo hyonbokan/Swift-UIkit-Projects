@@ -79,13 +79,6 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
-		9E1EE4D62AD7A0F600C74EA5 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		BD3EAB9B2AD0304C00582381 = {
 			isa = PBXGroup;
 			children = (
@@ -105,7 +98,6 @@
 		BD3EABA62AD0304C00582381 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				9E1EE4D62AD7A0F600C74EA5 /* ViewModels */,
 				BD3FA5BB2AD28ACD0019213C /* Models */,
 				BD3FA5B82AD289590019213C /* Managers */,
 				BD5FEF712AD04CF200708E24 /* Views */,
