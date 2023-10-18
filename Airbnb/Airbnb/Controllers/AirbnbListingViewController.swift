@@ -8,6 +8,7 @@
 import UIKit
 
 class AirbnbListingViewController: UIViewController {
+    private let model: AirbnbListing
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -18,14 +19,23 @@ class AirbnbListingViewController: UIViewController {
         return collectionView
     }()
     
+    init(model: AirbnbListing) {
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        configureCollectionView()
-        title = "Title"
+        title = model.name
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
-
+//        print(model)
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,6 +65,7 @@ extension AirbnbListingViewController: UICollectionViewDelegate, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AirbnbListingCollectionViewCell.identifier, for: indexPath) as? AirbnbListingCollectionViewCell else {
             fatalError()
         }
+        cell.configure(with: model)
         return cell
     }
     

@@ -32,7 +32,7 @@ class AirbnbListingView: UIView {
         let label = UILabel()
         label.backgroundColor = .brown
         label.textAlignment = .center
-        label.text = "Rate"
+        label.text = "rate"
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 16)
         return label
@@ -173,5 +173,15 @@ class AirbnbListingView: UIView {
             width: width,
             height: 150
         )
+    }
+    
+    func configure(with viewModel: AirbnbListing) {
+        listingTitle.text = viewModel.name
+        rate.text = viewModel.price?.formatted(.currency(code: "USD"))
+        listingDescription.text = viewModel.description
+        summary.text  = viewModel.summary
+        rules.text  = viewModel.house_rules
+        space.text  = viewModel.space
+//        aboutHost = viewModel.host_name
     }
 }

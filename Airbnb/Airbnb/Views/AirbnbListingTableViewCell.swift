@@ -11,11 +11,13 @@ class AirbnbListingTableViewCell: UITableViewCell {
     
     static let identifier = "AirbnbListingTableViewCell"
     
+//    private var index = 0
+    
     private let listringImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .lightGray
+//        imageView.backgroundColor = .lightGray
         imageView.image = UIImage(systemName: "doc.text.image")
         return imageView
     }()
@@ -27,7 +29,7 @@ class AirbnbListingTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.backgroundColor = .red
+//        label.backgroundColor = .red
         return label
     }()
     
@@ -38,7 +40,7 @@ class AirbnbListingTableViewCell: UITableViewCell {
         label.textAlignment = .left
         label.numberOfLines = 3
         label.text = "Detail"
-        label.backgroundColor = .green
+//        label.backgroundColor = .green
         return label
     }()
     
@@ -90,5 +92,12 @@ class AirbnbListingTableViewCell: UITableViewCell {
             width: contentView.width - listringImage.right - padding,
             height: detailHeight
         )
+    }
+    
+    func configure(with viewModel: AirbnbListing) {
+//        self.index = index
+//        listringImage
+        title.text = viewModel.name
+        detail.text = viewModel.description
     }
 }

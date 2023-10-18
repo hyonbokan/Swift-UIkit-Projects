@@ -14,13 +14,13 @@ class AirbnbListingCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(systemName: "sun.dust.fill")
-        imageView.backgroundColor = .red
+//        imageView.backgroundColor = .red
         return imageView
     }()
     
     private let listingTitle: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .gray
+//        label.backgroundColor = .gray
         label.textAlignment = .center
         label.text = "Title"
         label.numberOfLines = 1
@@ -31,7 +31,7 @@ class AirbnbListingCollectionViewCell: UICollectionViewCell {
     
     private let rate: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .brown
+//        label.backgroundColor = .brown
         label.textAlignment = .center
         label.text = "Rate"
         label.numberOfLines = 1
@@ -79,8 +79,8 @@ class AirbnbListingCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let aboutHost: UIView = {
-        let hostView = UIView()
+    private let aboutHost: AboutHostView = {
+        let hostView = AboutHostView()
         hostView.backgroundColor = .green
         return hostView
     }()
@@ -164,7 +164,7 @@ class AirbnbListingCollectionViewCell: UICollectionViewCell {
             x: 0,
             y: space.bottom+padding,
             width: contentView.width,
-            height: 50
+            height: 150
         )
     }
     
@@ -178,5 +178,15 @@ class AirbnbListingCollectionViewCell: UICollectionViewCell {
         rules.text = nil
         space.text = nil
         aboutHost.isHidden = true
+    }
+    
+    func configure(with viewModel: AirbnbListing) {
+        listingTitle.text = viewModel.name
+        rate.text = viewModel.price?.formatted(.currency(code: "USD"))
+        listingDescription.text = viewModel.description
+        summary.text  = viewModel.summary
+        rules.text  = viewModel.house_rules
+        space.text  = viewModel.space
+//        aboutHost = viewModel.host_name
     }
 }

@@ -9,6 +9,10 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    private let service = APIService()
+    
+    private var viewModel: [AirbnbListing] = []
+    
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(AirbnbListingTableViewCell.self, forCellReuseIdentifier: AirbnbListingTableViewCell.identifier)
@@ -24,6 +28,8 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         
         title = "Airbnb"
+        print("main vc")
+        fetchListring()
         
     }
     
@@ -31,12 +37,27 @@ class MainViewController: UIViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-
+    
+    public func fetchListring() {
+        service.getListings { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let models):
+                    self?.viewModel = models
+//                    print(self?.viewModel.count)
+//                    print(models)
+                    self?.tableView.reloadData()
+                case .failure:
+                    break
+                }
+            }
+        }
+    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,6 +65,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         cell.accessoryType = .disclosureIndicator
+        cell.configure(with: viewModel[indexPath.row])
         return cell
     }
     
@@ -53,8 +75,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let viewModel = self.viewModel[indexPath.row]
         DispatchQueue.main.async {
-            let vc = AirbnbDetailScrollViewViewController()
+            let vc = AirbnbListingViewController(model: viewModel)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
