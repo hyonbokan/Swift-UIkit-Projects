@@ -77,7 +77,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let viewModel = self.viewModel[indexPath.row]
         DispatchQueue.main.async {
-            let vc = AirbnbListingViewController(model: viewModel)
+            let vc = AirbnbDetailScrollViewViewController(model: viewModel)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

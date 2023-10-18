@@ -4,7 +4,7 @@
 //
 //  Created by dnlab on 2023/10/17.
 //
-
+import SDWebImage
 import UIKit
 
 class AirbnbListingTableViewCell: UITableViewCell {
@@ -96,7 +96,7 @@ class AirbnbListingTableViewCell: UITableViewCell {
     
     func configure(with viewModel: AirbnbListing) {
 //        self.index = index
-//        listringImage
+        listringImage.sd_setImage(with: URL(string: viewModel.thumbnail_url ?? ""))
         title.text = viewModel.name
         detail.text = viewModel.description
     }

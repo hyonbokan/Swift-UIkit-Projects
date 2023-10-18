@@ -4,7 +4,7 @@
 //
 //  Created by dnlab on 2023/10/18.
 //
-
+import SDWebImage
 import UIKit
 
 class AirbnbListingView: UIView {
@@ -138,28 +138,28 @@ class AirbnbListingView: UIView {
         listingDescription.frame = CGRect(
             x: xPosition,
             y: rate.bottom+padding,
-            width: width,
+            width: width-20,
             height: requiredSize.height
         )
         
         summary.frame = CGRect(
             x: xPosition,
             y: listingDescription.bottom+padding,
-            width: width,
+            width: width-20,
             height: requiredSize.height
         )
         
         rules.frame = CGRect(
             x: xPosition,
             y: summary.bottom+padding,
-            width: width,
+            width: width-20,
             height: requiredSize.height
         )
         
         space.frame = CGRect(
             x: xPosition,
             y: rules.bottom+padding,
-            width: width,
+            width: width-20,
             height: requiredSize.height
         )
 //        let targetSize = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
@@ -176,6 +176,7 @@ class AirbnbListingView: UIView {
     }
     
     func configure(with viewModel: AirbnbListing) {
+        listringImage.sd_setImage(with: URL(string: viewModel.xl_picture_url ?? ""), completed: nil)
         listingTitle.text = viewModel.name
         rate.text = viewModel.price?.formatted(.currency(code: "USD"))
         listingDescription.text = viewModel.description
