@@ -54,7 +54,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         DispatchQueue.main.async {
-            let vc = AirbnbDetailViewController()
+            let vc = AirbnbDetailScrollViewViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
