@@ -92,11 +92,21 @@ class AirbnbDetailScrollViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = model.name
-        
+        navigationItem.title = model.name
+
         addSubviews()
         configureView(with: model)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewDidLayoutSubviews() {
