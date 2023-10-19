@@ -4,7 +4,7 @@
 //
 //  Created by dnlab on 2023/10/18.
 //
-
+import SDWebImage
 import UIKit
 
 class AboutHostView: UIView {
@@ -30,7 +30,6 @@ class AboutHostView: UIView {
         label.text = "Host name"
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textAlignment = .left
-        label.backgroundColor = .darkGray
         return label
     }()
     
@@ -58,7 +57,7 @@ class AboutHostView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        header.frame = CGRect(x: 0, y: 0, width: width, height: 40)
+        header.frame = CGRect(x: 0, y: safeAreaInsets.top, width: width, height: 40)
         
         let imageSize: CGFloat = width/5
         hostImage.frame = CGRect(x: (width-imageSize)/2, y: (height-imageSize)/2, width: imageSize, height: imageSize)
@@ -74,4 +73,9 @@ class AboutHostView: UIView {
         footer.frame = CGRect(x: 0, y: footerYPosition, width: width, height: 20)
     }
     
+    func configure(with viewModel: AirbnbListing) {
+        hostImage.sd_setImage(with: URL(string: viewModel.host_picture_url))
+        hostName.text = viewModel.host_name
+        footer.text = viewModel.host_since
+    }
 }

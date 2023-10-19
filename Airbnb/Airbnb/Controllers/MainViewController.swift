@@ -28,7 +28,10 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         
         title = "Airbnb"
-        print("main vc")
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [
+            .font: UIFont.boldSystemFont(ofSize: 35)
+        ]
         fetchListring()
         
     }
