@@ -52,6 +52,7 @@
 		9E507C9C2AE22ECE0079C611 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9E507C9E2AE22ED60079C611 /* BlogPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlogPost.swift; sourceTree = "<group>"; };
 		9E507CA22AE232860079C611 /* PayWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayWallViewController.swift; sourceTree = "<group>"; };
+		9E507CA42AE23BB10079C611 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		D77F7622CDA155104248D516 /* Pods-PersonalBlog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PersonalBlog.debug.xcconfig"; path = "Target Support Files/Pods-PersonalBlog/Pods-PersonalBlog.debug.xcconfig"; sourceTree = "<group>"; };
 		DE51DED852104BDFEA83FD76 /* Pods_PersonalBlog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PersonalBlog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -112,11 +113,9 @@
 		9E507C822AE211C60079C611 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9E507CA52AE23BB90079C611 /* CoreTabs */,
 				9E507C8F2AE213F50079C611 /* SubVC */,
 				9E507C8A2AE213010079C611 /* Onboarding */,
-				9E507C6F2AE108200079C611 /* HomeViewController.swift */,
-				9E507C862AE212A10079C611 /* ProfileViewController.swift */,
-				9E507C882AE212D10079C611 /* TabBarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -167,6 +166,17 @@
 				9E507CA22AE232860079C611 /* PayWallViewController.swift */,
 			);
 			path = SubVC;
+			sourceTree = "<group>";
+		};
+		9E507CA52AE23BB90079C611 /* CoreTabs */ = {
+			isa = PBXGroup;
+			children = (
+				9E507C6F2AE108200079C611 /* HomeViewController.swift */,
+				9E507C862AE212A10079C611 /* ProfileViewController.swift */,
+				9E507C882AE212D10079C611 /* TabBarViewController.swift */,
+				9E507CA42AE23BB10079C611 /* Configuration.storekit */,
+			);
+			path = CoreTabs;
 			sourceTree = "<group>";
 		};
 		D35BA1381A3515EA58EF24E7 /* Pods */ = {
