@@ -26,13 +26,19 @@ class TabBarViewController: UITabBarController {
         let currentUser = User(id: userId, name: username, email: email, joined: date)
 
         let home = MainViewController()
+        home.title = "To Do List"
+        
         let profile = ProfileViewController(user: currentUser)
+        profile.title = "Profile"
         
         let nav1 = UINavigationController(rootViewController: home)
         let nav2 = UINavigationController(rootViewController: profile)
         
         nav1.navigationBar.tintColor = .label
         nav2.navigationBar.tintColor = .label
+        
+        nav1.navigationBar.prefersLargeTitles = true
+        nav2.navigationBar.prefersLargeTitles = true
         
         nav1.tabBarItem = UITabBarItem(
             title: "Home",

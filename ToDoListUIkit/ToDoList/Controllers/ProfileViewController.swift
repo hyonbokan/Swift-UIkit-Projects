@@ -79,13 +79,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        navigationItem.title = "Profile"
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [
-            .font: UIFont.boldSystemFont(ofSize: 40)
-        ]
-        
         addSubview()
         fetchUserInfo(user: currentUser)
         

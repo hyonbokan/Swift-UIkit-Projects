@@ -23,11 +23,6 @@ class MainViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = "To Do List"
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = [
-            .font: UIFont.boldSystemFont(ofSize: 35)
-        ]
-        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddItem))
         
