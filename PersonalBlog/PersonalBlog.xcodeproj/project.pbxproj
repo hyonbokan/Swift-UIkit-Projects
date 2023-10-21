@@ -27,6 +27,7 @@
 		9E507C9F2AE22ED60079C611 /* BlogPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C9E2AE22ED60079C611 /* BlogPost.swift */; };
 		9E507CA32AE232860079C611 /* PayWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507CA22AE232860079C611 /* PayWallViewController.swift */; };
 		BD693EB42AE35C620047306D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD693EB32AE35C620047306D /* GoogleService-Info.plist */; };
+		BD693EB72AE3983A0047306D /* SingInUPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD693EB62AE3983A0047306D /* SingInUPTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		9E507CA22AE232860079C611 /* PayWallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayWallViewController.swift; sourceTree = "<group>"; };
 		9E507CA42AE23BB10079C611 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		BD693EB32AE35C620047306D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BD693EB62AE3983A0047306D /* SingInUPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingInUPTextField.swift; sourceTree = "<group>"; };
 		D77F7622CDA155104248D516 /* Pods-PersonalBlog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PersonalBlog.debug.xcconfig"; path = "Target Support Files/Pods-PersonalBlog/Pods-PersonalBlog.debug.xcconfig"; sourceTree = "<group>"; };
 		DE51DED852104BDFEA83FD76 /* Pods_PersonalBlog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PersonalBlog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -123,6 +125,7 @@
 		9E507C832AE211CE0079C611 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BD693EB52AE398060047306D /* CustomElements */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,6 +180,14 @@
 				9E507CA42AE23BB10079C611 /* Configuration.storekit */,
 			);
 			path = CoreTabs;
+			sourceTree = "<group>";
+		};
+		BD693EB52AE398060047306D /* CustomElements */ = {
+			isa = PBXGroup;
+			children = (
+				BD693EB62AE3983A0047306D /* SingInUPTextField.swift */,
+			);
+			path = CustomElements;
 			sourceTree = "<group>";
 		};
 		D35BA1381A3515EA58EF24E7 /* Pods */ = {
@@ -322,6 +333,7 @@
 				9E507C8C2AE2131B0079C611 /* SignInViewController.swift in Sources */,
 				9E507C872AE212A10079C611 /* ProfileViewController.swift in Sources */,
 				9E507C9B2AE22C4B0079C611 /* Extensions.swift in Sources */,
+				BD693EB72AE3983A0047306D /* SingInUPTextField.swift in Sources */,
 				9E507C912AE214280079C611 /* CreateNewPostViewController.swift in Sources */,
 				9E507C972AE214640079C611 /* AuthManager.swift in Sources */,
 				9E507C892AE212D10079C611 /* TabBarViewController.swift in Sources */,

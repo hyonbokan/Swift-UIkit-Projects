@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            IAPManager.shared.subscribe(package: package)
 //        }
 //        
-//        Purchases.configure(withAPIKey: "appl_rMHCkthdgQNFHFDWRCKgPVSeQCJ", appUserID: "co.khenbo.PersonalBlog")
+//        Purchases.configure(withAPIKey: "", appUserID: "")
         
         return true
     }

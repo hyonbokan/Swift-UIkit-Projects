@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BlogPost {
+struct BlogPost: Codable {
     let title: String
     let timestamp: TimeInterval
     let headerImageUrl: URL?

@@ -44,7 +44,7 @@ class PayWallViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Subscribe", for: .normal)
 //        button.setTitleColor(.label, for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemPurple
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         return button
