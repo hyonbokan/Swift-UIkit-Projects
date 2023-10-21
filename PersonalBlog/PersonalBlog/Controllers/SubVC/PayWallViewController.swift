@@ -74,10 +74,36 @@ class PayWallViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
         
         addSubviews()
+        subscribeButton.addTarget(self, action: #selector(didTapSubscribe), for: .touchUpInside)
+        restoreButton.addTarget(self, action: #selector(didTapRestore), for: .touchUpInside)
     }
     
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func didTapSubscribe() {
+        IAPManager.shared.subscribe { [weak self] result in
+            DispatchQueue.main.async {
+                if result {
+                    self?.dismiss(animated: true, completion: nil)
+                } else {
+                    self?.errorAlert(title: "Error", message: "Sorry! Subscription failed.")
+                }
+            }
+        }
+    }
+    
+    @objc private func didTapRestore() {
+        IAPManager.shared.subscribe { [weak self] result in
+            DispatchQueue.main.async {
+                if result {
+                    self?.dismiss(animated: true, completion: nil)
+                } else {
+                    self?.errorAlert(title: "Error", message: "Sorry! We could not restore your subscription.")
+                }
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -129,5 +155,11 @@ class PayWallViewController: UIViewController {
         view.addSubview(subscribeButton)
         view.addSubview(restoreButton)
         view.addSubview(termsView)
+    }
+    
+    private func errorAlert(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        present(ac, animated: true)
     }
 }

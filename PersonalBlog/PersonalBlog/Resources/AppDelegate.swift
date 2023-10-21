@@ -4,6 +4,7 @@
 //
 //  Created by dnlab on 2023/10/19.
 //
+import Purchases
 import Firebase
 import UIKit
 
@@ -15,6 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        
+//        IAPManager.shared.fetchPackages { package in
+//            guard let package = package else {
+//                return
+//            }
+//            print("Got package!")
+//            IAPManager.shared.subscribe(package: package)
+//        }
+//        
+//        Purchases.configure(withAPIKey: "appl_rMHCkthdgQNFHFDWRCKgPVSeQCJ", appUserID: "co.khenbo.PersonalBlog")
         
         return true
     }
