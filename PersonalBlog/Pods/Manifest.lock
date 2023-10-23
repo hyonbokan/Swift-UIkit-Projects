@@ -819,6 +819,9 @@ PODS:
     - PurchasesCoreSwift (= 3.14.3)
   - PurchasesCoreSwift (3.14.3)
   - RecaptchaInterop (100.0.0)
+  - SDWebImage (5.18.3):
+    - SDWebImage/Core (= 5.18.3)
+  - SDWebImage/Core (5.18.3)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -826,6 +829,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Storage
   - Purchases
+  - SDWebImage
 
 SPEC REPOS:
   trunk:
@@ -853,6 +857,7 @@ SPEC REPOS:
     - Purchases
     - PurchasesCoreSwift
     - RecaptchaInterop
+    - SDWebImage
 
 SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
@@ -879,7 +884,8 @@ SPEC CHECKSUMS:
   Purchases: ba5a570357564da5d5447281190b5ac5ab9b8f3e
   PurchasesCoreSwift: 78a2001158d7fed44f9796ea50b89152ba727520
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  SDWebImage: 96e0c18ef14010b7485210e92fac888587ebb958
 
-PODFILE CHECKSUM: 25be4aef5c5cb6eeaa290994eba30ad232925873
+PODFILE CHECKSUM: 411668f46d08509563a702f3123865bacba7655a
 
 COCOAPODS: 1.13.0

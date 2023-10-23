@@ -8,6 +8,8 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+    
+    private var collectionView: UICollectionView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,13 @@ class ProfileViewController: UIViewController {
             action: #selector(didTapSignOUt)
         )
         
+        configureCollectionView()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView?.frame = view.bounds
     }
     
     @objc private func didTapSignOUt() {
@@ -45,5 +54,62 @@ class ProfileViewController: UIViewController {
         }))
         present(ac, animated: true)
     }
+    
+    private func configureCollectionView(){
+        let layout = UICollectionViewCompositionalLayout(sectionProvider: { _, _ ->
+            NSCollectionLayoutSection? in
+            
+            // 1. Item
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+              let item = NSCollectionLayoutItem(layoutSize: itemSize)
+              
+              // Set spacing between items
+              item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+              
+              // 2. Horizontal Group
+              let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
+              let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, subitem: item, count: 2)
+              
+              // 3. Vertical Group
+            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
+              let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitem: horizontalGroup, count: 2)
+              
+              // 4. Section
+              let section = NSCollectionLayoutSection(group: verticalGroup)
+              
+              return section
+        })
+        
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        
+        collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        view.addSubview(collectionView)
+        
+        self.collectionView = collectionView
+    }
+}
 
+extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: PostCollectionViewCell.identifier,
+            for: indexPath
+        ) as? PostCollectionViewCell else {
+            fatalError()
+        }
+        cell.configure(with: UIImage(systemName: "person"))
+        cell.backgroundColor = .red
+        return cell
+    }
+    
+    
 }
