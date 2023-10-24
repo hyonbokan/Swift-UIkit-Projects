@@ -6,9 +6,14 @@
 //
 
 import UIKit
+protocol ProfileHeaderCollectionViewCellDelegate: AnyObject {
+    func profileHeaderCollectionViewCellDidTapProfilePicture(_ header: ProfileHeaderCollectionViewCell)
+}
 
 class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     static let identifier = "ProfileHeaderCollectionViewCell"
+    
+    weak var delegate: ProfileHeaderCollectionViewCellDelegate?
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -16,7 +21,8 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         imageView.isUserInteractionEnabled = true
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
-        imageView.image = UIImage(systemName: "person")
+//        imageView.image = UIImage(systemName: "person")
+        imageView.backgroundColor = .red
         return imageView
     }()
     
@@ -34,10 +40,17 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(profileImageView)
         addSubview(emailLable)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImageView.addGestureRecognizer(tap)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func didTapProfileImage() {
+        delegate?.profileHeaderCollectionViewCellDidTapProfilePicture(self)
     }
     
     override func layoutSubviews() {
@@ -60,5 +73,6 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         emailLable.text = email
     }
     
+
     
 }
