@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		6965B998C12FD89D87ACE011 /* Pods_PersonalBlog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE51DED852104BDFEA83FD76 /* Pods_PersonalBlog.framework */; };
 		9E1FE77E2AE89D01008D9250 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE77D2AE89D01008D9250 /* ProfileHeaderViewModel.swift */; };
+		9E1FE7832AE8D730008D9250 /* PostHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE7822AE8D730008D9250 /* PostHeaderCollectionViewCell.swift */; };
+		9E1FE7852AE8D747008D9250 /* PostBodyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE7842AE8D747008D9250 /* PostBodyCollectionViewCell.swift */; };
+		9E1FE7872AE8D765008D9250 /* PostDateTimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE7862AE8D765008D9250 /* PostDateTimeCollectionViewCell.swift */; };
+		9E1FE7892AE8D791008D9250 /* HomeCollectionCellTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE7882AE8D791008D9250 /* HomeCollectionCellTypes.swift */; };
+		9E1FE78B2AE8D7EE008D9250 /* PostHeaderCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE78A2AE8D7EE008D9250 /* PostHeaderCollectionViewCellViewModel.swift */; };
+		9E1FE78D2AE8D862008D9250 /* PostBodyCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE78C2AE8D862008D9250 /* PostBodyCollectionViewCellViewModel.swift */; };
+		9E1FE78F2AE8D871008D9250 /* PostActionsCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE78E2AE8D871008D9250 /* PostActionsCollectionViewCellViewModel.swift */; };
 		9E507C6C2AE108200079C611 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C6B2AE108200079C611 /* AppDelegate.swift */; };
 		9E507C6E2AE108200079C611 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C6D2AE108200079C611 /* SceneDelegate.swift */; };
 		9E507C702AE108200079C611 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C6F2AE108200079C611 /* HomeViewController.swift */; };
@@ -36,6 +43,13 @@
 /* Begin PBXFileReference section */
 		133C330241965473401379F9 /* Pods-PersonalBlog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PersonalBlog.release.xcconfig"; path = "Target Support Files/Pods-PersonalBlog/Pods-PersonalBlog.release.xcconfig"; sourceTree = "<group>"; };
 		9E1FE77D2AE89D01008D9250 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
+		9E1FE7822AE8D730008D9250 /* PostHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		9E1FE7842AE8D747008D9250 /* PostBodyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBodyCollectionViewCell.swift; sourceTree = "<group>"; };
+		9E1FE7862AE8D765008D9250 /* PostDateTimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDateTimeCollectionViewCell.swift; sourceTree = "<group>"; };
+		9E1FE7882AE8D791008D9250 /* HomeCollectionCellTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionCellTypes.swift; sourceTree = "<group>"; };
+		9E1FE78A2AE8D7EE008D9250 /* PostHeaderCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		9E1FE78C2AE8D862008D9250 /* PostBodyCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBodyCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		9E1FE78E2AE8D871008D9250 /* PostActionsCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostActionsCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		9E507C682AE108200079C611 /* PersonalBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E507C6B2AE108200079C611 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E507C6D2AE108200079C611 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,8 +95,21 @@
 			isa = PBXGroup;
 			children = (
 				9E1FE77D2AE89D01008D9250 /* ProfileHeaderViewModel.swift */,
+				9E1FE78A2AE8D7EE008D9250 /* PostHeaderCollectionViewCellViewModel.swift */,
+				9E1FE78C2AE8D862008D9250 /* PostBodyCollectionViewCellViewModel.swift */,
+				9E1FE78E2AE8D871008D9250 /* PostActionsCollectionViewCellViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9E1FE7812AE8D6F0008D9250 /* HomeCells */ = {
+			isa = PBXGroup;
+			children = (
+				9E1FE7822AE8D730008D9250 /* PostHeaderCollectionViewCell.swift */,
+				9E1FE7842AE8D747008D9250 /* PostBodyCollectionViewCell.swift */,
+				9E1FE7862AE8D765008D9250 /* PostDateTimeCollectionViewCell.swift */,
+			);
+			path = HomeCells;
 			sourceTree = "<group>";
 		};
 		9E507C5F2AE108200079C611 = {
@@ -123,6 +150,7 @@
 			children = (
 				9E507C9C2AE22ECE0079C611 /* User.swift */,
 				9E507C9E2AE22ED60079C611 /* BlogPost.swift */,
+				9E1FE7882AE8D791008D9250 /* HomeCollectionCellTypes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -140,6 +168,7 @@
 		9E507C832AE211CE0079C611 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9E1FE7812AE8D6F0008D9250 /* HomeCells */,
 				BD693EB52AE398060047306D /* CustomElements */,
 				9E507CA62AE63DC30079C611 /* PostCollectionViewCell.swift */,
 				9E507CA82AE65BC00079C611 /* ProfileHeaderCollectionViewCell.swift */,
@@ -346,15 +375,22 @@
 				9E507C992AE2146E0079C611 /* StorageManager.swift in Sources */,
 				9E1FE77E2AE89D01008D9250 /* ProfileHeaderViewModel.swift in Sources */,
 				9E507C6C2AE108200079C611 /* AppDelegate.swift in Sources */,
+				9E1FE78B2AE8D7EE008D9250 /* PostHeaderCollectionViewCellViewModel.swift in Sources */,
 				9E507C8E2AE213320079C611 /* SignUpViewController.swift in Sources */,
+				9E1FE78D2AE8D862008D9250 /* PostBodyCollectionViewCellViewModel.swift in Sources */,
 				9E507C9D2AE22ECE0079C611 /* User.swift in Sources */,
 				9E507CA72AE63DC30079C611 /* PostCollectionViewCell.swift in Sources */,
+				9E1FE7832AE8D730008D9250 /* PostHeaderCollectionViewCell.swift in Sources */,
+				9E1FE7872AE8D765008D9250 /* PostDateTimeCollectionViewCell.swift in Sources */,
 				9E507C8C2AE2131B0079C611 /* SignInViewController.swift in Sources */,
 				9E507C872AE212A10079C611 /* ProfileViewController.swift in Sources */,
+				9E1FE78F2AE8D871008D9250 /* PostActionsCollectionViewCellViewModel.swift in Sources */,
 				9E507C9B2AE22C4B0079C611 /* Extensions.swift in Sources */,
+				9E1FE7852AE8D747008D9250 /* PostBodyCollectionViewCell.swift in Sources */,
 				9E507CA92AE65BC00079C611 /* ProfileHeaderCollectionViewCell.swift in Sources */,
 				BD693EB72AE3983A0047306D /* SingInUPTextField.swift in Sources */,
 				9E507C912AE214280079C611 /* CreateNewPostViewController.swift in Sources */,
+				9E1FE7892AE8D791008D9250 /* HomeCollectionCellTypes.swift in Sources */,
 				9E507C972AE214640079C611 /* AuthManager.swift in Sources */,
 				9E507C892AE212D10079C611 /* TabBarViewController.swift in Sources */,
 				9E507C6E2AE108200079C611 /* SceneDelegate.swift in Sources */,
