@@ -18,9 +18,23 @@ class PostCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let postTile: UILabel = {
+        let label = UILabel()
+        label.text = "Post title"
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.numberOfLines = 2
+        label.backgroundColor = .gray
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = .blue
+        contentView.layer.cornerRadius = 20
+        contentView.clipsToBounds = true
         contentView.addSubview(imageView)
+        contentView.addSubview(postTile)
     }
     
     required init?(coder: NSCoder) {
@@ -29,19 +43,23 @@ class PostCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = contentView.bounds
+        imageView.frame = CGRect(x: 0, y: 0, width: contentView.width, height: contentView.height-40)
+        postTile.frame = CGRect(x: 0, y: imageView.bottom, width: contentView.width, height: 40)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
+        postTile.text = nil
     }
     
-    func configure(with image: UIImage?) {
+    func configure(with image: UIImage?, title: String) {
         imageView.image = image
+        postTile.text = title
     }
     
-    func configure(with url: URL?) {
+    func configure(with url: URL?, title: String) {
         imageView.sd_setImage(with: url, completed: nil)
+        postTile.text = title
     }
 }

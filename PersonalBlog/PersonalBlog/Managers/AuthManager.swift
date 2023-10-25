@@ -25,12 +25,22 @@ final class AuthManager {
         password: String,
         completion: @escaping (Bool) -> Void
     ) {
-        auth.signIn(withEmail: email, password: password) { result, error in
-            guard result != nil, error == nil else {
+        
+        DataBaseManager.shared.findUserWithEmail(email: email) { [weak self] user in
+            guard let user = user else {
                 completion(false)
                 return
             }
-            completion(true)
+            self?.auth.signIn(withEmail: email, password: password) { result, error in
+                guard result != nil, error == nil else {
+                    completion(false)
+                    return
+                }
+                
+                UserDefaults.standard.set(user.name, forKey: "name")
+                UserDefaults.standard.set(user.email, forKey: "email")
+                completion(true)
+            }
         }
     }
     

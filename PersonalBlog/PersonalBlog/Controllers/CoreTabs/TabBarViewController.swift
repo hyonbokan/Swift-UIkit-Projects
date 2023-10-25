@@ -12,9 +12,16 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let email = UserDefaults.standard.string(forKey: "email"),
+              let username = UserDefaults.standard.string(forKey: "name") else {
+            return
+        }
+        
+        let currentUser = User(name: username, email: email, profilePictureUrl: nil)
+        print("\ncurrent user: \(currentUser)\n")
         let home = HomeViewController()
         home.title = "Home"
-        let profile = ProfileViewController()
+        let profile = ProfileViewController(user: currentUser)
         profile.title = "Profile"
         
         let nav1 = UINavigationController(rootViewController: home)

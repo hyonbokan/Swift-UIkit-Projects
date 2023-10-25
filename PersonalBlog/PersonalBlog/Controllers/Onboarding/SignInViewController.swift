@@ -154,7 +154,6 @@ class SignInViewController: UIViewController {
         AuthManager.shared.signIn(email: email, password: password) { [weak self] success in
             if success {
                 DispatchQueue.main.async {
-                    UserDefaults.standard.set(email, forKey: "email")
                     let vc = TabBarViewController()
                     vc.modalPresentationStyle = .fullScreen
                     self?.present(vc, animated: true)

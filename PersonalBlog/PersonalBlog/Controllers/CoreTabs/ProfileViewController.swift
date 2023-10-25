@@ -9,8 +9,25 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    private let user: User
+    
     private var collectionView: UICollectionView?
-
+    
+    private var headerViewModel: ProfileHeaderViewModel?
+    
+    private var isCurrentUser: Bool {
+        return user.name == UserDefaults.standard.string(forKey: "name")
+    }
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -80,7 +97,7 @@ class ProfileViewController: UIViewController {
                 NSCollectionLayoutBoundarySupplementaryItem(
                     layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .fractionalWidth(0.66)),
+                        heightDimension: .fractionalWidth(0.5)),
                     elementKind: UICollectionView.elementKindSectionHeader,
                     alignment: .top
                 )
@@ -122,8 +139,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         ) as? PostCollectionViewCell else {
             fatalError()
         }
-        cell.configure(with: UIImage(systemName: "person"))
-        cell.backgroundColor = .red
+        cell.configure(with: UIImage(systemName: "person"), title: "That time when I was fired for eating snacks at work")
         return cell
     }
     
@@ -136,7 +152,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
               ) as? ProfileHeaderCollectionViewCell else {
             return UICollectionReusableView()
         }
-        headerView.configure(email: "userDefault@gmail.com", image: UIImage(systemName: "person"))
+        headerView.configure(email: user.email, image: UIImage(systemName: "person"))
         headerView.delegate = self
         return headerView
     }
@@ -146,7 +162,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension ProfileViewController: ProfileHeaderCollectionViewCellDelegate {
     func profileHeaderCollectionViewCellDidTapProfilePicture(_ header: ProfileHeaderCollectionViewCell) {
         
-        print("profile pic tapped")
+        guard isCurrentUser else {
+            print("it is not the current user")
+            return
+        }
 
         let ac = UIAlertController(title: "Change Profile Picture", message: nil, preferredStyle: .actionSheet)
         
@@ -185,8 +204,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
             return
         }
-        print(image.pngData())
-        
+        guard let email = UserDefaults.standard.string(forKey: "email") else { return }
+        StorageManager.shared.uploadProfilePicture(email: email, data: image.pngData()) { [weak self] success in
+            if success {
+                print("image uploaded to the storage")
+            }
+        }
     }
 }
 

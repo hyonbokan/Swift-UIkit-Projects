@@ -34,4 +34,40 @@ final class DataBaseManager {
                 completion(error == nil)
             }
     }
+    
+    public func findUserWithName(
+        username: String,
+        completion: @escaping (User?) -> Void
+    ) {
+        let ref = database.collection("users")
+        ref.getDocuments { snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
+                  error == nil
+            else {
+                completion(nil)
+                return
+            }
+            
+            let user = users.first(where: { $0.name == username })
+            completion(user)
+        }
+    }
+    
+    public func findUserWithEmail(
+        email: String,
+        completion: @escaping (User?) -> Void
+    ) {
+        let ref = database.collection("users")
+        ref.getDocuments { snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
+                  error == nil
+            else {
+                completion(nil)
+                return
+            }
+            
+            let user = users.first(where: { $0.email == email })
+            completion(user)
+        }
+    }
 }

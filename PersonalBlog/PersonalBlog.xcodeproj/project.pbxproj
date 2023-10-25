@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6965B998C12FD89D87ACE011 /* Pods_PersonalBlog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE51DED852104BDFEA83FD76 /* Pods_PersonalBlog.framework */; };
+		9E1FE77E2AE89D01008D9250 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1FE77D2AE89D01008D9250 /* ProfileHeaderViewModel.swift */; };
 		9E507C6C2AE108200079C611 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C6B2AE108200079C611 /* AppDelegate.swift */; };
 		9E507C6E2AE108200079C611 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C6D2AE108200079C611 /* SceneDelegate.swift */; };
 		9E507C702AE108200079C611 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E507C6F2AE108200079C611 /* HomeViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		133C330241965473401379F9 /* Pods-PersonalBlog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PersonalBlog.release.xcconfig"; path = "Target Support Files/Pods-PersonalBlog/Pods-PersonalBlog.release.xcconfig"; sourceTree = "<group>"; };
+		9E1FE77D2AE89D01008D9250 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		9E507C682AE108200079C611 /* PersonalBlog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersonalBlog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E507C6B2AE108200079C611 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E507C6D2AE108200079C611 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +77,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E1FE77C2AE89CE8008D9250 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9E1FE77D2AE89D01008D9250 /* ProfileHeaderViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		9E507C5F2AE108200079C611 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +106,7 @@
 		9E507C6A2AE108200079C611 /* PersonalBlog */ = {
 			isa = PBXGroup;
 			children = (
+				9E1FE77C2AE89CE8008D9250 /* ViewModels */,
 				9E507C852AE211EB0079C611 /* Resources */,
 				9E507C842AE211D30079C611 /* Managers */,
 				9E507C832AE211CE0079C611 /* Views */,
@@ -333,6 +344,7 @@
 				9E507C702AE108200079C611 /* HomeViewController.swift in Sources */,
 				9E507C952AE2145E0079C611 /* DatabaseManager.swift in Sources */,
 				9E507C992AE2146E0079C611 /* StorageManager.swift in Sources */,
+				9E1FE77E2AE89D01008D9250 /* ProfileHeaderViewModel.swift in Sources */,
 				9E507C6C2AE108200079C611 /* AppDelegate.swift in Sources */,
 				9E507C8E2AE213320079C611 /* SignUpViewController.swift in Sources */,
 				9E507C9D2AE22ECE0079C611 /* User.swift in Sources */,
