@@ -7,6 +7,6 @@
 
 import UIKit
 
-class PostDateTimeCollectionViewCell: UICollectionViewCell {
+class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
     
 }

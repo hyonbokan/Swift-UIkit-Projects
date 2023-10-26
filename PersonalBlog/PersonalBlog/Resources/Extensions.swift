@@ -43,8 +43,20 @@ extension DateFormatter {
     }()
 }
 
+extension String {
+     func safeDatabaseKey() -> String {
+          return self.replacingOccurrences(of: ".", with: "-").replacingOccurrences(of: "@", with: "-")
+    }
+    
+    static func date(from date: Date) -> String? {
+        let formatter = DateFormatter.formatter
+        let string = formatter.string(from: date)
+        return string
+    }
+}
+
 extension Encodable {
-    func asDictionary() -> [String: Any] {
+    func asDictionary() -> [String: Any]? {
         guard let data = try? JSONEncoder().encode(self) else {
             return [:]
         }

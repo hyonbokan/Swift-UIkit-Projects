@@ -36,6 +36,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func didTapCreatePost() {
+        // Make sure to update collectionView with vc completion
         let vc = CreateNewPostViewController()
         present(vc, animated: true)
     }

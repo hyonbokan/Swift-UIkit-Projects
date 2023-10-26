@@ -70,4 +70,29 @@ final class DataBaseManager {
             completion(user)
         }
     }
+    
+    public func createPost(
+        newPost: BlogPost,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let email = UserDefaults.standard.string(forKey: "email") else {
+            print("Could not find the user in UserDefaults")
+            completion(false)
+            return
+        }
+        let documentId = email
+            .replacingOccurrences(of: ".", with: "_")
+            .replacingOccurrences(of: "@", with: "_")
+        
+        let ref = database.document("users/\(documentId)/posts/\(newPost.id)")
+        guard let data = newPost.asDictionary() else {
+            completion(false)
+            print("Could not encode the post data into dict")
+            return
+        }
+        
+        ref.setData(data) { error in
+            completion(error == nil)
+        }
+    }
 }

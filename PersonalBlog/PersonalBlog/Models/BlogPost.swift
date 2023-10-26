@@ -8,8 +8,18 @@
 import Foundation
 
 struct BlogPost: Codable {
+    let id: String
     let title: String
-    let timestamp: TimeInterval
-    let headerImageUrl: URL?
-    let text: String
+    let postedDate: String
+    let body: String
+    let postUrlString: String
+    
+    var date: Date {
+        return DateFormatter.formatter.date(from: postedDate) ?? Date()
+    }
+    
+    var storageReference: String? {
+        guard let username = UserDefaults.standard.string(forKey: "name") else { return nil }
+        return "\(username)/posts/\(id)"
+    }
 }

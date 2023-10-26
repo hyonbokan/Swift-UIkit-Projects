@@ -10,5 +10,5 @@ import Foundation
 enum HomeCollectionCellTypes {
     case header(viewModel: PostHeaderCollectionViewCellViewModel)
     case body(viewModel: PostBodyCollectionViewCellViewModel)
-    case actions(viewModel: PostDateTimeCollectionViewCellViewModel)
+    case actions(viewModel: PostDateTimeLikesCollectionViewCellViewModel)
 }
