@@ -8,5 +8,15 @@
 import UIKit
 
 class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
+    static let identifier = "PostDateTimeLikesCollectionViewCell"
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        contentView.backgroundColor = .gray
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

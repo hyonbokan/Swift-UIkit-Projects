@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class ProfileViewController: UIViewController {
     
@@ -173,6 +174,7 @@ extension ProfileViewController: ProfileHeaderCollectionViewCellDelegate {
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         ac.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            // Change to new PHPicker
             DispatchQueue.main.async {
                 let picker = UIImagePickerController()
                 picker.allowsEditing = true
@@ -184,9 +186,8 @@ extension ProfileViewController: ProfileHeaderCollectionViewCellDelegate {
         
         ac.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { [weak self] _ in
             DispatchQueue.main.async {
-                let picker = UIImagePickerController()
-                picker.allowsEditing = true
-                picker.sourceType = .photoLibrary
+                let configuration = PHPickerConfiguration()
+                let picker = PHPickerViewController(configuration: configuration)
                 picker.delegate = self
                 self?.present(picker, animated: true)
             }
@@ -196,21 +197,31 @@ extension ProfileViewController: ProfileHeaderCollectionViewCellDelegate {
     
 }
 
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        picker.dismiss(animated: true)
+        guard let email = UserDefaults.standard.string(forKey: "email") else {
+            print("Email not found in UserDefaults")
             return
         }
-        guard let email = UserDefaults.standard.string(forKey: "email") else { return }
-        StorageManager.shared.uploadProfilePicture(email: email, data: image.pngData()) { [weak self] success in
-            if success {
-                print("image uploaded to the storage")
+        // Get the first item provider from the results, the configuration only allowed one image to be selected
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                if let selectedImage = image as? UIImage {
+                    StorageManager.shared.uploadProfilePicture(email: email, data: selectedImage.pngData()) { [weak self] success in
+                        if success {
+                            // Update the profile picture -> download it from store
+                            print("image uploaded to the storage")
+                        }
+                    }
+                }
             }
+        } else {
+            print("No item provider found or item provider can't load UIImage")
+            return
         }
     }
 }

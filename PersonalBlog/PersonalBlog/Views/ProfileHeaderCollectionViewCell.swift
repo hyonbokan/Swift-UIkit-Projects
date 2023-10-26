@@ -21,16 +21,14 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         imageView.isUserInteractionEnabled = true
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
-//        imageView.image = UIImage(systemName: "person")
         imageView.backgroundColor = .red
         return imageView
     }()
     
     private let emailLable: UILabel = {
         let label = UILabel()
-        label.text = "Useremail@mail.org"
+        label.text = "UserEmail@mail.org"
         label.textAlignment = .center
-//        label.textColor = .label
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.numberOfLines = 1
         return label

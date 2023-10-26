@@ -8,5 +8,6 @@
 import Foundation
 
 struct PostDateTimeLikesCollectionViewCellViewModel {
-    
+    let date: Date
+    let likeredBy: [String]
 }

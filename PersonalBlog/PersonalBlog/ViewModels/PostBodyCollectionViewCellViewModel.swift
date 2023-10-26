@@ -8,6 +8,6 @@
 import Foundation
 
 struct PostBodyCollectionViewCellViewModel {
-    let postImage: URL
+    let postImage: URL?
     let title: String
 }
