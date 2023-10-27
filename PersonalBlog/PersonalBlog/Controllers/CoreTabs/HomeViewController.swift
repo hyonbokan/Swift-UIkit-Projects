@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
             let postDate: [HomeCollectionCellTypes] = [
                 .header(
                     viewModel: PostHeaderCollectionViewCellViewModel(
-                        username: "user\(i)",
+                        username: "user name and last name\(i)",
                         profileImageUrl: nil
                     )
                 ),
@@ -150,8 +150,7 @@ class HomeViewController: UIViewController {
         collectionView.register(PostBodyCollectionViewCell.self, forCellWithReuseIdentifier: PostBodyCollectionViewCell.identifier)
         
         collectionView.register(PostDateTimeLikesCollectionViewCell.self, forCellWithReuseIdentifier: PostDateTimeLikesCollectionViewCell.identifier)
-        
-//        collectionView.backgroundColor = .cyan
+
         self.collectionView = collectionView
         
 
@@ -179,6 +178,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? PostHeaderCollectionViewCell else {
                 fatalError()
             }
+            cell.configure(with: viewModel)
             return cell
         
         case .body(let viewModel):
@@ -197,6 +197,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? PostDateTimeLikesCollectionViewCell else {
                 fatalError()
             }
+            cell.configure(with: viewModel)
             return cell
         }
     }

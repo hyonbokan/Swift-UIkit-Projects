@@ -16,7 +16,7 @@ class CreateNewPostViewController: UIViewController {
         button.tintColor = .systemPurple
         let image = UIImage(systemName: "photo.on.rectangle.angled", withConfiguration: UIImage.SymbolConfiguration(pointSize: 70))
         button.setImage(image, for: .normal)
-        button.backgroundColor = .label
+        button.backgroundColor = .secondarySystemBackground
         return button
     }()
     
