@@ -22,7 +22,6 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
         imageView.image?.withTintColor(.label)
-        imageView.backgroundColor = .blue
         return imageView
     }()
     
@@ -40,7 +39,6 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(timestamp)
         contentView.addSubview(likeImage)
         contentView.addSubview(likeCountLabel)
-        contentView.backgroundColor = .gray
     }
     
     required init?(coder: NSCoder) {
@@ -60,7 +58,7 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
         
         let imageSize: CGFloat = 20
         likeImage.frame = CGRect(
-            x: (contentView.width-timestamp.width) + (imageSize*3),
+            x: (contentView.width-timestamp.width) + (imageSize*2),
             y: (contentView.height-imageSize)/2,
             width: imageSize,
             height: imageSize
@@ -76,7 +74,7 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: PostDateTimeLikesCollectionViewCellViewModel) {
         timestamp.text = .date(from: viewModel.date)
-        let likeCount = viewModel.likeredBy
+        let likeCount = viewModel.likers
         if likeCount.isEmpty {
             likeCountLabel.text = "0"
         } else {

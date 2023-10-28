@@ -108,7 +108,8 @@ class CreateNewPostViewController: UIViewController {
                 title: titleText,
                 postedDate: stringDate,
                 body: bodyText,
-                postUrlString: url.absoluteString
+                postUrlString: url.absoluteString,
+                likers: []
             )
             
             DataBaseManager.shared.createPost(newPost: newPost) { [weak self] success in

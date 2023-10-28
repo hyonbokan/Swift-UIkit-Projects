@@ -13,6 +13,7 @@ struct BlogPost: Codable {
     let postedDate: String
     let body: String
     let postUrlString: String
+    let likers: [String]
     
     var date: Date {
         return DateFormatter.formatter.date(from: postedDate) ?? Date()

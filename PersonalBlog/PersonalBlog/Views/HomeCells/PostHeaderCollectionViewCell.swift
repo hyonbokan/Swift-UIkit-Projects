@@ -15,7 +15,6 @@ class PostHeaderCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.backgroundColor = .blue
         return imageView
     }()
     
@@ -24,14 +23,12 @@ class PostHeaderCollectionViewCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 16)
         label.textColor = .label
         label.isUserInteractionEnabled = true
-        label.backgroundColor = .yellow
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.clipsToBounds = true
-        contentView.backgroundColor = .brown
         contentView.addSubview(profileImage)
         contentView.addSubview(usernameLabel)
         

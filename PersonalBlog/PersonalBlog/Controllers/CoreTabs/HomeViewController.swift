@@ -8,6 +8,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    private var allPosts: [(post: BlogPost, owner: String)] = []
+    
     private let createPostButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "square.and.pencil", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35))
@@ -34,35 +36,9 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(createPostButton)
         createPostButton.addTarget(self, action: #selector(didTapCreatePost), for: .touchUpInside)
-        
-        for i in 1...10 {
-            let postDate: [HomeCollectionCellTypes] = [
-                .header(
-                    viewModel: PostHeaderCollectionViewCellViewModel(
-                        username: "user name and last name\(i)",
-                        profileImageUrl: nil
-                    )
-                ),
-                .body(
-                    viewModel: PostBodyCollectionViewCellViewModel(
-                        postImage: nil,
-                        title: "Post title \(i)"
-                    )
-                ),
-                .actions(
-                    viewModel: PostDateTimeLikesCollectionViewCellViewModel(
-                        date: Date(),
-                        likeredBy: []
-                    )
-                )
-            ]
-            cellViewModels.append(postDate)
-        }
-        
-        
         configureCollectionView()
-        print(cellViewModels)
-        print(cellViewModels.count)
+        
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,12 +52,81 @@ class HomeViewController: UIViewController {
         
         view.bringSubviewToFront(createPostButton)
         
+        
     }
     
     @objc private func didTapCreatePost() {
         // Make sure to update collectionView with vc completion
+        print("cellViewModels: \(cellViewModels.count)")
         let vc = CreateNewPostViewController()
+        vc.completion = { [weak self] in
+            self?.allPosts = []
+            self?.cellViewModels = []
+            self?.fetchData()
+            self?.collectionView?.reloadData()
+        }
         present(vc, animated: true)
+    }
+    
+    private func fetchData() {
+        guard let email = UserDefaults.standard.string(forKey: "email") else {
+            return
+        }
+        let userGroup = DispatchGroup()
+        userGroup.enter()
+
+        var allPosts: [(post: BlogPost, owner: String)] = []
+        DataBaseManager.shared.findAllUsers { users in
+            defer {
+                userGroup.leave()
+            }
+            print("\nAll user: \(users)\n")
+            for user in users {
+                userGroup.enter()
+                DataBaseManager.shared.getPosts(email: user) { result in
+                    DispatchQueue.main.async {
+                        defer {
+                            userGroup.leave()
+                        }
+                        
+                        switch result {
+                        case .success(let posts):
+                            print("\n\(user) post count: \(posts.count)\n")
+                            allPosts.append(contentsOf: posts.compactMap({
+                                (post: $0, owner: user)
+                            }))
+                        case .failure(let error):
+                            print(error)
+                            break
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        userGroup.notify(queue: .main) {
+            let group = DispatchGroup()
+            self.allPosts = allPosts
+            allPosts.forEach { model in
+                group.enter()
+                self.createViewModel(
+                    model: model.post,
+                    email: model.owner
+                ) { success in
+                    defer {
+                        group.leave()
+                    }
+                    if !success {
+                        print("Failed to create VM with fetched data")
+                    }
+                }
+            }
+            group.notify(queue: .main) {
+                self.collectionView?.reloadData()
+            }
+        }
+        
     }
     
     private func createViewModel(
@@ -89,30 +134,36 @@ class HomeViewController: UIViewController {
         email: String,
         completion: @escaping (Bool) -> Void
     ) {
+        StorageManager.shared.getProfilePictureUrl(for: email) { [weak self] url in
+            guard let postUrl = URL(string: model.postUrlString),
+                  let profilePictureUrl = url else {
+                print("Could not get profile picture from storage")
+                return
+            }
+            let postData: [HomeCollectionCellTypes] = [
+                .header(
+                    viewModel: PostHeaderCollectionViewCellViewModel(
+                        username: email,
+                        profileImageUrl: profilePictureUrl
+                    )
+                ),
+                .body(
+                    viewModel: PostBodyCollectionViewCellViewModel(
+                        postImage: postUrl,
+                        title: model.title
+                    )
+                ),
+                .actions(
+                    viewModel: PostDateTimeLikesCollectionViewCellViewModel(
+                        date: model.date,
+                        likers: model.likers
+                    )
+                )
+            ]
+            self?.cellViewModels.append(postData)
+            completion(true)
+        }
         
-        let postDate1: [HomeCollectionCellTypes] = [
-            .header(
-                viewModel: PostHeaderCollectionViewCellViewModel(
-                    username: "user1",
-                    profileImageUrl: nil
-                )
-            ),
-            .body(
-                viewModel: PostBodyCollectionViewCellViewModel(
-                    postImage: nil,
-                    title: "Post title"
-                )
-            ),
-            .actions(
-                viewModel: PostDateTimeLikesCollectionViewCellViewModel(
-                    date: Date(),
-                    likeredBy: []
-                )
-            )
-        ]
-        
-        cellViewModels.append(postDate1)
-        completion(true)
     }
     
     private func configureCollectionView() {
@@ -188,6 +239,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? PostBodyCollectionViewCell else {
                 fatalError()
             }
+            cell.configure(with: viewModel)
             return cell
             
         case .actions(let viewModel):

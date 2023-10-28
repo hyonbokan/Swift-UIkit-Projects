@@ -4,7 +4,7 @@
 //
 //  Created by dnlab on 2023/10/25.
 //
-
+import SDWebImage
 import UIKit
 
 class PostBodyCollectionViewCell: UICollectionViewCell {
@@ -12,7 +12,6 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
     
     private let postImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo")
         imageView.isUserInteractionEnabled = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -25,8 +24,6 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.isUserInteractionEnabled = true
         label.numberOfLines = 0
-        label.backgroundColor = .cyan
-        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         return label
     }()
     
@@ -35,7 +32,6 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
         contentView.clipsToBounds = true
         contentView.addSubview(postImage)
         contentView.addSubview(titleLabel)
-        contentView.backgroundColor = .red
         
         let postImageTap = UITapGestureRecognizer(target: self, action: #selector(didTapBodyElement))
         let titleTap = UITapGestureRecognizer(target: self, action: #selector(didTapBodyElement))
@@ -54,9 +50,9 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         let padding: CGFloat = 5
-        let imageSize: CGFloat = contentView.height-(padding * 2)
+        let imageSize: CGFloat = contentView.height-(padding * 4)
         postImage.frame = CGRect(
-            x: contentView.width-imageSize-(padding*2),
+            x: contentView.width-imageSize-(padding*8),
             y: (contentView.height-imageSize)/2,
             width: imageSize,
             height: imageSize
@@ -64,9 +60,13 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
         titleLabel.frame = CGRect(
             x: padding,
             y: 0,
-            width: contentView.width-imageSize-(padding*4),
+            width: contentView.width-imageSize-70,
             height: contentView.height
         )
     }
     
+    func configure(with viewModel: PostBodyCollectionViewCellViewModel) {
+        titleLabel.text = viewModel.title
+        postImage.sd_setImage(with: viewModel.postImage, completed: nil)
+    }
 }

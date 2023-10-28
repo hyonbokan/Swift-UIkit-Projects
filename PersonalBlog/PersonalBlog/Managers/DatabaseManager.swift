@@ -95,4 +95,44 @@ final class DataBaseManager {
             completion(error == nil)
         }
     }
+    
+    public func getPosts(
+        email: String,
+        completion: @escaping (Result<[BlogPost], Error>) -> Void
+    ) {
+        let documentId = email
+            .replacingOccurrences(of: ".", with: "_")
+            .replacingOccurrences(of: "@", with: "_")
+        
+        let ref = database
+            .collection("users")
+            .document(documentId)
+            .collection("posts")
+        
+        ref.getDocuments { snapshot, error in
+            guard let posts = snapshot?.documents.compactMap({
+                BlogPost(with: $0.data()
+                )}).sorted(by: { return $0.date > $1.date
+                }),
+                  error == nil else {
+                return
+            }
+            completion(.success(posts))
+        }
+    }
+    
+    public func findAllUsers(
+        completion: @escaping ([String]) -> Void
+    ) {
+        let ref = database
+            .collection("users")
+        ref.getDocuments { snapshot, error in
+            guard let allUsers = snapshot?.documents.compactMap({ $0.documentID }),
+                  error == nil else {
+                completion([])
+                return
+            }
+            completion(allUsers)
+        }
+    }
 }
