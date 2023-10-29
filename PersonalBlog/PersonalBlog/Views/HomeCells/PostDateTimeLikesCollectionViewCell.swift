@@ -21,7 +21,7 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
     private let likeImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
-        imageView.image?.withTintColor(.label)
+        imageView.tintColor = .systemPurple
         return imageView
     }()
     

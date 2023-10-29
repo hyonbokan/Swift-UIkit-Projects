@@ -16,9 +16,17 @@ class ProfileViewController: UIViewController {
     
     private var headerViewModel: ProfileHeaderViewModel?
     
+    private var posts: [BlogPost] = []
+    
     private var isCurrentUser: Bool {
         return user.name == UserDefaults.standard.string(forKey: "name")
     }
+    
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.hidesWhenStopped = true
+        return spinner
+    }()
     
     init(user: User) {
         self.user = user
@@ -41,7 +49,8 @@ class ProfileViewController: UIViewController {
         )
         
         configureCollectionView()
-        
+        setupSpinner()
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,6 +82,51 @@ class ProfileViewController: UIViewController {
         present(ac, animated: true)
     }
     
+    private func setupSpinner() {
+        view.addSubview(spinner)
+        spinner.center = view.center
+        spinner.color = .systemPurple
+    }
+    
+    private func fetchData() {
+        let email = user.email
+        
+        spinner.startAnimating()
+        let group = DispatchGroup()
+        // Profile picture
+        group.enter()
+        StorageManager.shared.getProfilePictureUrl(for: email) { [weak self] url in
+            defer {
+                group.leave()
+            }
+            guard let profileImageUrl = url
+            else {
+                print("Could not get profile picture from storage")
+                return
+            }
+
+            self?.headerViewModel = ProfileHeaderViewModel(profileImageUrl: profileImageUrl, name: email)
+        }
+        // Posts
+        group.enter()
+        DataBaseManager.shared.getPosts(email: email) { [weak self] result in
+            defer {
+                group.leave()
+            }
+            switch result {
+            case .success(let posts):
+                self?.posts = posts
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+        group.notify(queue: .main) {
+            self.collectionView?.reloadData()
+            self.spinner.stopAnimating()
+        }
+    }
+    
     private func configureCollectionView(){
         let layout = UICollectionViewCompositionalLayout(sectionProvider: { _, _ ->
             NSCollectionLayoutSection? in
@@ -86,12 +140,10 @@ class ProfileViewController: UIViewController {
             
             // 2. Horizontal Group
             let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(0.33))
-//            let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, subitem: item, count: 2)
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, repeatingSubitem: item, count: 2)
             
             // 3. Vertical Group
-            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
-//            let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitem: horizontalGroup, count: 2)
+            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.5))
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitems: [horizontalGroup])
             
             // 4. Section
@@ -132,7 +184,7 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,7 +194,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         ) as? PostCollectionViewCell else {
             fatalError()
         }
-        cell.configure(with: UIImage(systemName: "person"), title: "That time when I was fired for eating snacks at work")
+        cell.configure(with: posts[indexPath.item])
         return cell
     }
     
@@ -155,7 +207,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
               ) as? ProfileHeaderCollectionViewCell else {
             return UICollectionReusableView()
         }
-        headerView.configure(email: user.email, image: UIImage(systemName: "person"))
+        if let viewModel = headerViewModel {
+            headerView.configure(with: viewModel)
+        }
         headerView.delegate = self
         return headerView
     }

@@ -9,5 +9,5 @@ import Foundation
 
 struct ProfileHeaderViewModel {
     let profileImageUrl: URL?
-    let name: String?
+    let name: String
 }

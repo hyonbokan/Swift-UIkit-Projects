@@ -18,23 +18,23 @@ class PostCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let postTile: UILabel = {
+    private let postTitle: UILabel = {
         let label = UILabel()
         label.text = "Post title"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .bold)
         label.numberOfLines = 2
-        label.backgroundColor = .gray
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .blue
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.systemPurple.cgColor
         contentView.layer.cornerRadius = 20
         contentView.clipsToBounds = true
         contentView.addSubview(imageView)
-        contentView.addSubview(postTile)
+        contentView.addSubview(postTitle)
     }
     
     required init?(coder: NSCoder) {
@@ -44,22 +44,22 @@ class PostCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = CGRect(x: 0, y: 0, width: contentView.width, height: contentView.height-40)
-        postTile.frame = CGRect(x: 0, y: imageView.bottom, width: contentView.width, height: 40)
+        postTitle.frame = CGRect(x: 0, y: imageView.bottom, width: contentView.width, height: 40)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
-        postTile.text = nil
+        postTitle.text = nil
     }
     
     func configure(with image: UIImage?, title: String) {
         imageView.image = image
-        postTile.text = title
+        postTitle.text = title
     }
     
-    func configure(with url: URL?, title: String) {
-        imageView.sd_setImage(with: url, completed: nil)
-        postTile.text = title
+    func configure(with viewModel: BlogPost) {
+        imageView.sd_setImage(with: URL(string: viewModel.postUrlString), completed: nil)
+        postTitle.text = viewModel.title
     }
 }

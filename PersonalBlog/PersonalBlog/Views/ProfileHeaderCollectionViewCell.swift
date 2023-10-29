@@ -4,8 +4,9 @@
 //
 //  Created by dnlab on 2023/10/23.
 //
-
+import SDWebImage
 import UIKit
+
 protocol ProfileHeaderCollectionViewCellDelegate: AnyObject {
     func profileHeaderCollectionViewCellDidTapProfilePicture(_ header: ProfileHeaderCollectionViewCell)
 }
@@ -21,7 +22,8 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         imageView.isUserInteractionEnabled = true
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = .red
+        imageView.layer.borderColor = UIColor.systemPurple.cgColor
+        imageView.layer.borderWidth = 1
         return imageView
     }()
     
@@ -66,9 +68,9 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    func configure(email: String, image: UIImage?) {
-        profileImageView.image = image
-        emailLable.text = email
+    func configure(with viewModel: ProfileHeaderViewModel) {
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
+        emailLable.text = viewModel.name
     }
     
 
