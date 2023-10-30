@@ -239,7 +239,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? PostBodyCollectionViewCell else {
                 fatalError()
             }
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.section)
+            cell.delegate = self
             return cell
             
         case .actions(let viewModel):
@@ -253,7 +254,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         }
     }
+}
+
+extension HomeViewController: PostBodyCollectionViewCellDelegate {
+    func postBodyCollectionViewCellDidTapBodyElement(_ cell: PostBodyCollectionViewCell, index: Int) {
+        let tuple = allPosts[index]
+        print(tuple)
+        
+        let vc = PostDetailViewController(post: tuple.post, owner: tuple.owner)
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     
 }
-

@@ -7,8 +7,16 @@
 import SDWebImage
 import UIKit
 
+protocol PostBodyCollectionViewCellDelegate: AnyObject {
+    func postBodyCollectionViewCellDidTapBodyElement(_ cell: PostBodyCollectionViewCell, index: Int)
+}
+
 class PostBodyCollectionViewCell: UICollectionViewCell {
     static let identifier = "PostBodyCollectionViewCell"
+    
+    weak var delegate: PostBodyCollectionViewCellDelegate?
+    
+    private var index = 0
     
     private let postImage: UIImageView = {
         let imageView = UIImageView()
@@ -44,7 +52,7 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func didTapBodyElement() {
-        print("Body element tapped")
+        delegate?.postBodyCollectionViewCellDidTapBodyElement(self, index: index)
     }
     
     override func layoutSubviews() {
@@ -65,7 +73,8 @@ class PostBodyCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    func configure(with viewModel: PostBodyCollectionViewCellViewModel) {
+    func configure(with viewModel: PostBodyCollectionViewCellViewModel, index: Int) {
+        self.index = index
         titleLabel.text = viewModel.title
         postImage.sd_setImage(with: viewModel.postImage, completed: nil)
     }
