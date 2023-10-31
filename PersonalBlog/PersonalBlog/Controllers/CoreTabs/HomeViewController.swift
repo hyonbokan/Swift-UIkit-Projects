@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchData() {
-        guard let email = UserDefaults.standard.string(forKey: "email") else {
+        guard let username = UserDefaults.standard.string(forKey: "username") else {
             return
         }
         let userGroup = DispatchGroup()
@@ -83,7 +83,7 @@ class HomeViewController: UIViewController {
             print("\nAll user: \(users)\n")
             for user in users {
                 userGroup.enter()
-                DataBaseManager.shared.getPosts(email: user) { result in
+                DataBaseManager.shared.getPosts(username: user) { result in
                     DispatchQueue.main.async {
                         defer {
                             userGroup.leave()

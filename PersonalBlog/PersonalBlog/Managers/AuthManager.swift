@@ -37,7 +37,7 @@ final class AuthManager {
                     return
                 }
                 
-                UserDefaults.standard.set(user.name, forKey: "name")
+                UserDefaults.standard.set(user.name, forKey: "username")
                 UserDefaults.standard.set(user.email, forKey: "email")
                 completion(true)
             }
@@ -50,7 +50,7 @@ final class AuthManager {
         password: String,
         completion: @escaping (Bool) -> Void
     ) {
-        let newUser = User(name: username, email: email, profilePictureUrl: nil)
+        let newUser = User(name: username, email: email)
         auth.createUser(withEmail: email, password: password) { result, error in
             guard result != nil, error == nil else {
                 completion(false)

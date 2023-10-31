@@ -160,7 +160,7 @@ class SignUpViewController: UIViewController {
         AuthManager.shared.signUp(email: email, username: username, password: password) { [weak self] success in
             if success {
                 UserDefaults.standard.set(email, forKey: "email")
-                UserDefaults.standard.set(username, forKey: "name")
+                UserDefaults.standard.set(username, forKey: "username")
                 
                 DispatchQueue.main.async {
                     let vc = TabBarViewController()

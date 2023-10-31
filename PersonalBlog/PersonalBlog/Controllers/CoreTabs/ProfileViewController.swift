@@ -18,8 +18,10 @@ class ProfileViewController: UIViewController {
     
     private var posts: [BlogPost] = []
     
+    private var observer: NSObjectProtocol?
+    
     private var isCurrentUser: Bool {
-        return user.name == UserDefaults.standard.string(forKey: "name")
+        return user.name == UserDefaults.standard.string(forKey: "username")
     }
     
     private let spinner: UIActivityIndicatorView = {
@@ -47,10 +49,17 @@ class ProfileViewController: UIViewController {
             target: self,
             action: #selector(didTapSignOUt)
         )
-        
         configureCollectionView()
         setupSpinner()
         fetchData()
+        
+        if isCurrentUser {
+            observer = NotificationCenter.default.addObserver(forName: .didPostNotification, object: nil, queue: .main
+            ) { [weak self] _ in
+                self?.posts.removeAll()
+                self?.fetchData()
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -66,7 +75,7 @@ class ProfileViewController: UIViewController {
                 if success {
                     DispatchQueue.main.async {
                         UserDefaults.standard.set(nil, forKey: "email")
-                        UserDefaults.standard.set(nil, forKey: "name")
+                        UserDefaults.standard.set(nil, forKey: "username")
                         
                         let signInVC = SignInViewController()
                         signInVC.navigationItem.largeTitleDisplayMode = .always
@@ -89,13 +98,13 @@ class ProfileViewController: UIViewController {
     }
     
     private func fetchData() {
-        let email = user.email
-        
+        let username = user.name
+        self.headerViewModel = ProfileHeaderViewModel(profileImageUrl: nil, name: username)
         spinner.startAnimating()
         let group = DispatchGroup()
         // Profile picture
         group.enter()
-        StorageManager.shared.getProfilePictureUrl(for: email) { [weak self] url in
+        StorageManager.shared.getProfilePictureUrl(for: username) { [weak self] url in
             defer {
                 group.leave()
             }
@@ -105,16 +114,17 @@ class ProfileViewController: UIViewController {
                 return
             }
 
-            self?.headerViewModel = ProfileHeaderViewModel(profileImageUrl: profileImageUrl, name: email)
+            self?.headerViewModel = ProfileHeaderViewModel(profileImageUrl: profileImageUrl, name: username)
         }
         // Posts
         group.enter()
-        DataBaseManager.shared.getPosts(email: email) { [weak self] result in
+        DataBaseManager.shared.getPosts(username: username) { [weak self] result in
             defer {
                 group.leave()
             }
             switch result {
             case .success(let posts):
+                print("Profile controller: posts for \(username)")
                 self?.posts = posts
             case .failure(let error):
                 print(error)
@@ -255,7 +265,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
         picker.dismiss(animated: true)
-        guard let email = UserDefaults.standard.string(forKey: "email") else {
+        guard let username = UserDefaults.standard.string(forKey: "username") else {
             print("Email not found in UserDefaults")
             return
         }
@@ -265,9 +275,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                 if let selectedImage = image as? UIImage {
-                    StorageManager.shared.uploadProfilePicture(email: email, data: selectedImage.pngData()) { [weak self] success in
+                    StorageManager.shared.uploadProfilePicture(username: username, data: selectedImage.pngData()) { [weak self] success in
                         if success {
-                            // Update the profile picture -> download it from store
+                            self?.headerViewModel = nil
+                            self?.posts = []
+                            self?.fetchData()
                             print("image uploaded to the storage")
                         }
                     }

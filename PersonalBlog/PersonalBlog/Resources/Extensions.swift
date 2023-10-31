@@ -85,3 +85,7 @@ extension Decodable {
         self = result
     }
 }
+
+extension Notification.Name {
+    static let didPostNotification = Notification.Name("didPostNotification")
+}

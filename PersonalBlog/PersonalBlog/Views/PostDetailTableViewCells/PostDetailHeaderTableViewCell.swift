@@ -4,23 +4,22 @@
 //
 //  Created by Michael Kan on 2023/10/30.
 //
-
+import SDWebImage
 import UIKit
 
 class PostDetailHeaderTableViewCell: UITableViewCell {
     static let identifier = "PostDetailHeaderTableViewCell"
     
-    private var viewModel: PostDetailHeaderCellViewModel?
-    
     private let headerImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "person")
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .systemBackground
         addSubview(headerImage)
     }
     
@@ -39,4 +38,7 @@ class PostDetailHeaderTableViewCell: UITableViewCell {
         headerImage.frame = contentView.bounds
     }
     
+    func configure(with viewModel: PostDetailHeaderCellViewModel) {
+        headerImage.sd_setImage(with: viewModel.postImage, completed: nil)
+    }
 }

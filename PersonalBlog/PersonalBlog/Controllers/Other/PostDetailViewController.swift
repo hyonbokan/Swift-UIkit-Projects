@@ -50,7 +50,6 @@ class PostDetailViewController: UIViewController {
         
     }
     
-    
     private func configureNavButtons() {
         let shareButtonImage = UIImage(systemName: "square.and.arrow.up")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal)
         
@@ -79,12 +78,15 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             ) as? PostDetailHeaderTableViewCell else {
                 fatalError()
             }
+            let viewModel = PostDetailHeaderCellViewModel(title: post.title, username: owner, profilePictureUrl: nil, postImage: URL(string: post.postUrlString))
+            cell.configure(with: viewModel)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "bodyCell", for: indexPath)
             cell.selectionStyle = .none
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = post.body
+            cell.textLabel?.textAlignment = .left
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(

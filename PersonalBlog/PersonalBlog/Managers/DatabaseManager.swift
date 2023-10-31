@@ -16,23 +16,33 @@ final class DataBaseManager {
     
     init() {}
     
+    // Change it to save username instread of email
     public func createUser(
         user: User,
         completion: @escaping (Bool) -> Void
     ) {
-        let documentId = user.email
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "@", with: "_")
-        let data = [
-            "email": user.email,
-            "name": user.name
-        ]
-        database
-            .collection("users")
-            .document(documentId)
-            .setData(data) { error in
-                completion(error == nil)
-            }
+//        let documentId = user.email
+//            .replacingOccurrences(of: ".", with: "_")
+//            .replacingOccurrences(of: "@", with: "_")
+//        let data = [
+//            "email": user.email,
+//            "name": user.name
+//        ]
+//        database
+//            .collection("users")
+//            .document(documentId)
+//            .setData(data) { error in
+//                completion(error == nil)
+//            }
+        let reference = database.document("users/\(user.name)")
+        guard let data = user.asDictionary() else {
+            completion(false)
+            return
+        }
+        // store data(username: example, email: exmaple) in the Firestore database document
+        reference.setData(data) { error in
+            completion(error == nil)
+        }
     }
     
     public func findUserWithName(
@@ -75,16 +85,13 @@ final class DataBaseManager {
         newPost: BlogPost,
         completion: @escaping (Bool) -> Void
     ) {
-        guard let email = UserDefaults.standard.string(forKey: "email") else {
+        guard let username = UserDefaults.standard.string(forKey: "username") else {
             print("Could not find the user in UserDefaults")
             completion(false)
             return
         }
-        let documentId = email
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "@", with: "_")
         
-        let ref = database.document("users/\(documentId)/posts/\(newPost.id)")
+        let ref = database.document("users/\(username)/posts/\(newPost.id)")
         guard let data = newPost.asDictionary() else {
             completion(false)
             print("Could not encode the post data into dict")
@@ -97,16 +104,12 @@ final class DataBaseManager {
     }
     
     public func getPosts(
-        email: String,
+        username: String,
         completion: @escaping (Result<[BlogPost], Error>) -> Void
     ) {
-        let documentId = email
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "@", with: "_")
-        
         let ref = database
             .collection("users")
-            .document(documentId)
+            .document(username)
             .collection("posts")
         
         ref.getDocuments { snapshot, error in

@@ -162,7 +162,7 @@ class CreateNewPostViewController: UIViewController {
     private func createNewPostID() -> String? {
         let timeStamp = Date().timeIntervalSince1970
         let randomNumber = Int.random(in: 0...1000)
-        guard let username = UserDefaults.standard.string(forKey: "name") else {
+        guard let username = UserDefaults.standard.string(forKey: "username") else {
             return nil
         }
         

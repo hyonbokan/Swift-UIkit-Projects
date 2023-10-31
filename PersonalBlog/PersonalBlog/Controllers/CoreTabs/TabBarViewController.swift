@@ -13,11 +13,11 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         
         guard let email = UserDefaults.standard.string(forKey: "email"),
-              let username = UserDefaults.standard.string(forKey: "name") else {
+              let username = UserDefaults.standard.string(forKey: "username") else {
             return
         }
         
-        let currentUser = User(name: username, email: email, profilePictureUrl: nil)
+        let currentUser = User(name: username, email: email)
         print("\ncurrent user: \(currentUser)\n")
         let home = HomeViewController()
         home.title = "Home"

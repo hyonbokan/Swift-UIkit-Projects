@@ -20,7 +20,7 @@ struct BlogPost: Codable {
     }
     
     var storageReference: String? {
-        guard let username = UserDefaults.standard.string(forKey: "name") else { return nil }
+        guard let username = UserDefaults.standard.string(forKey: "username") else { return nil }
         return "\(username)/posts/\(id)"
     }
 }

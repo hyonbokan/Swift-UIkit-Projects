@@ -17,27 +17,20 @@ final class StorageManager {
     init() {}
     
     public func uploadProfilePicture(
-        email: String,
+        username: String,
         data: Data?,
         completion: @escaping (Bool) -> Void
     ) {
         guard let data = data else {
             return
         }
-        let documentId = email
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "@", with: "_")
         
-        storage.child("\(documentId)/profile_picture.png").putData(data, metadata: nil) { _, error in completion(error == nil)
+        storage.child("\(username)/profile_picture.png").putData(data, metadata: nil) { _, error in completion(error == nil)
         }
     }
     
-    public func getProfilePictureUrl(for email: String, completion: @escaping (URL?) -> Void) {
-        let documentId = email
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "@", with: "_")
-        
-        storage.child("\(documentId)/profile_picture.png").downloadURL { url, error in
+    public func getProfilePictureUrl(for username: String, completion: @escaping (URL?) -> Void) {
+        storage.child("\(username)/profile_picture.png").downloadURL { url, error in
             completion(url)
         }
     }
@@ -47,15 +40,11 @@ final class StorageManager {
         id: String,
         completion: @escaping (URL?) -> Void
     ) {
-        guard let email = UserDefaults.standard.string(forKey: "email"), let data = data else {
+        guard let username = UserDefaults.standard.string(forKey: "username"), let data = data else {
             print("Storage: Could not get username from User Defaults")
             return
         }
-        let documentId = email
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "@", with: "_")
-        
-        let ref = storage.child("\(documentId)/posts/\(id).png")
+        let ref = storage.child("\(username)/posts/\(id).png")
         ref.putData(data, metadata: nil) { _, error in
             ref.downloadURL { url, _ in
                 completion(url)

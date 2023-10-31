@@ -29,7 +29,7 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     
     private let emailLable: UILabel = {
         let label = UILabel()
-        label.text = "UserEmail@mail.org"
+        label.text = "Could not fetch username"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.numberOfLines = 1
@@ -69,7 +69,12 @@ class ProfileHeaderCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with viewModel: ProfileHeaderViewModel) {
-        profileImageView.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
+        if viewModel.profileImageUrl == nil{
+            profileImageView.image = UIImage(systemName: "person")
+            profileImageView.tintColor = .systemPurple
+        } else {
+            profileImageView.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
+        }
         emailLable.text = viewModel.name
     }
     
