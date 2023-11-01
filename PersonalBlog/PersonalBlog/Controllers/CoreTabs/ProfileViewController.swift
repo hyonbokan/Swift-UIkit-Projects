@@ -99,8 +99,8 @@ class ProfileViewController: UIViewController {
     
     private func fetchData() {
         let username = user.name
-        self.headerViewModel = ProfileHeaderViewModel(profileImageUrl: nil, name: username)
         spinner.startAnimating()
+        self.headerViewModel = ProfileHeaderViewModel(profileImageUrl: nil, name: username)
         let group = DispatchGroup()
         // Profile picture
         group.enter()
@@ -124,7 +124,7 @@ class ProfileViewController: UIViewController {
             }
             switch result {
             case .success(let posts):
-                print("Profile controller: posts for \(username)")
+                print("Profile controller: \(username)")
                 self?.posts = posts
             case .failure(let error):
                 print(error)
@@ -222,6 +222,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         headerView.delegate = self
         return headerView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let post = posts[indexPath.row]
+        let vc = PostDetailViewController(post: post, owner: user.name)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

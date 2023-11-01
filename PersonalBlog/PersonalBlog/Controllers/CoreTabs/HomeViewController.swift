@@ -27,6 +27,12 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.hidesWhenStopped = true
+        return spinner
+    }()
+    
     private var collectionView: UICollectionView?
     
     private var cellViewModels = [[HomeCollectionCellTypes]]()
@@ -37,7 +43,7 @@ class HomeViewController: UIViewController {
         view.addSubview(createPostButton)
         createPostButton.addTarget(self, action: #selector(didTapCreatePost), for: .touchUpInside)
         configureCollectionView()
-        
+        setupSpinner()
         fetchData()
     }
     
@@ -54,6 +60,11 @@ class HomeViewController: UIViewController {
         
         
     }
+    private func setupSpinner() {
+        view.addSubview(spinner)
+        spinner.center = view.center
+        spinner.color = .systemPurple
+    }
     
     @objc private func didTapCreatePost() {
         // Make sure to update collectionView with vc completion
@@ -69,6 +80,7 @@ class HomeViewController: UIViewController {
     }
     
     private func fetchData() {
+        spinner.startAnimating()
         guard let username = UserDefaults.standard.string(forKey: "username") else {
             return
         }
@@ -124,6 +136,7 @@ class HomeViewController: UIViewController {
             }
             group.notify(queue: .main) {
                 self.collectionView?.reloadData()
+                self.spinner.stopAnimating()
             }
         }
         

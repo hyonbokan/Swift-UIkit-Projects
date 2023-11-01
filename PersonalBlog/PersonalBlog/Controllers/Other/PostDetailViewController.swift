@@ -10,11 +10,12 @@ import UIKit
 class PostDetailViewController: UIViewController {
     private let post: BlogPost
     private let owner: String
+    private var viewModel: PostDetailHeaderCellViewModel?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "titleCell")
         tableView.register(PostDetailHeaderTableViewCell.self, forCellReuseIdentifier: PostDetailHeaderTableViewCell.identifier)
-//        tableView.register(PostDetailBodyTableViewCell.self, forCellReuseIdentifier: PostDetailBodyTableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "bodyCell")
         tableView.register(PostDetailFooterTableViewCell.self, forCellReuseIdentifier: PostDetailFooterTableViewCell.identifier)
         return tableView
@@ -39,6 +40,8 @@ class PostDetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        fetchPost()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,6 +59,40 @@ class PostDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: shareButtonImage, style: .done, target: self, action: #selector(didTapShare))
     }
     
+    private func fetchPost() {
+        let username = owner
+        let post = self.post
+        DataBaseManager.shared.getPosts(username: username) { [weak self] posts in
+//            print("Detail Posts -> posts fetched: \(posts)")
+            self?.createViewModel(model: post, username: username, completion: { success in
+                guard success else {
+                    print("Failed to create viewModel for PostDetailViewModel")
+                    return
+                }
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            })
+            
+        }
+    }
+    
+    private func createViewModel(
+        model: BlogPost,
+        username: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        StorageManager.shared.getProfilePictureUrl(for: username) { [weak self] url in
+            guard let profilePhotoUrl = url else {
+                completion(false)
+                return
+            }
+            let postData = PostDetailHeaderCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString))
+            self?.viewModel = postData
+            completion(true)
+        }
+    }
+    
 }
 
 extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -65,30 +102,39 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let index = indexPath.row
         switch index {
         case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "titleCell", for: indexPath)
+            cell.selectionStyle = .none
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.text = post.title
+            cell.textLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+            cell.textLabel?.textAlignment = .left
+            return cell
+        case 1:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: PostDetailHeaderTableViewCell.identifier,
                 for: indexPath
             ) as? PostDetailHeaderTableViewCell else {
                 fatalError()
             }
-            let viewModel = PostDetailHeaderCellViewModel(title: post.title, username: owner, profilePictureUrl: nil, postImage: URL(string: post.postUrlString))
-            cell.configure(with: viewModel)
+            if let viewModel = self.viewModel{
+                cell.configure(with: viewModel)
+            }
             return cell
-        case 1:
+        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "bodyCell", for: indexPath)
             cell.selectionStyle = .none
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = post.body
             cell.textLabel?.textAlignment = .left
             return cell
-        case 2:
+        case 3:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: PostDetailFooterTableViewCell.identifier,
                 for: indexPath
@@ -105,11 +151,13 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         let index = indexPath.row
         switch index {
         case 0:
-            return 250
-        case 1:
             return UITableView.automaticDimension
+        case 1:
+            return 335
         case 2:
-            return 100
+            return UITableView.automaticDimension
+        case 3:
+            return UITableView.automaticDimension
         default:
             return UITableView.automaticDimension
         }
