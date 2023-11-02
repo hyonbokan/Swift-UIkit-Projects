@@ -13,5 +13,6 @@ struct PostDetailCellViewModel {
     let profilePictureUrl: URL?
     let postImage: URL?
     let date: Date
+    let isLiked: Bool
 //    let userEmail: String
 }

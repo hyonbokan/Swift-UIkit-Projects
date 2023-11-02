@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
         let image = UIImage(systemName: "square.and.pencil", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35))
         button.setImage(image, for: .normal)
         button.imageView?.contentMode = .scaleAspectFill
-        button.tintColor = .label
+        button.tintColor = .white
         button.backgroundColor = .systemPurple
         button.layer.shadowColor = UIColor.purple.cgColor
         button.layer.shadowOpacity = 1 // higher value -> more visible
@@ -173,7 +173,7 @@ class HomeViewController: UIViewController {
                     viewModel: PostDateTimeLikesCollectionViewCellViewModel(
                         date: model.date,
                         likers: model.likers, 
-                        isLiked: true // change based to isLiked
+                        isLiked: isLiked
                     )
                 )
             ]
@@ -277,8 +277,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension HomeViewController: PostBodyCollectionViewCellDelegate {
     func postBodyCollectionViewCellDidTapBodyElement(_ cell: PostBodyCollectionViewCell, index: Int) {
         let tuple = allPosts[index]
-        print(tuple)
-        
         let vc = PostDetailViewController(post: tuple.post, owner: tuple.owner)
         navigationController?.pushViewController(vc, animated: true)
     }

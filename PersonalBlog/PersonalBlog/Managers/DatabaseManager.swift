@@ -124,6 +124,27 @@ final class DataBaseManager {
         }
     }
     
+    public func getPost(
+        with id: String,
+        from username: String,
+        completion: @escaping (BlogPost?) -> Void
+    ) {
+        let ref = database
+            .collection("users")
+            .document(username)
+            .collection("posts")
+            .document(id)
+        ref.getDocument { snapshot, error in
+            guard let data = snapshot?.data(),
+                  error == nil else {
+                completion(nil)
+                return
+            }
+//            print("\npost data: \(data)")
+            completion(BlogPost(with: data))
+        }
+    }
+    
     public func findAllUsers(
         completion: @escaping ([String]) -> Void
     ) {
@@ -137,5 +158,52 @@ final class DataBaseManager {
             }
             completion(allUsers)
         }
+    }
+    enum LikeState {
+        case like, unlike
+    }
+    
+    public func updateLike(
+        state: LikeState,
+        postID: String,
+        owner: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username")
+        else {
+            print("\nCould not access current user\n")
+            return
+        }
+        let ref = database
+            .collection("users")
+            .document(owner)
+            .collection("posts")
+            .document(postID)
+        
+        getPost(with: postID, from: owner) { post in
+            guard var post = post else {
+                completion(false)
+                return
+            }
+            switch state {
+            case .like:
+                if !post.likers.contains(currentUsername) {
+                    post.likers.append(currentUsername)
+                    print("\n likers data updated: adding \(currentUsername)")
+                }
+            case .unlike:
+                post.likers.removeAll(where: { $0 == currentUsername })
+                print("\n likers data updated: removing \(currentUsername)")
+            }
+            
+            guard let data = post.asDictionary() else {
+                completion(false)
+                return
+            }
+            ref.setData(data) { error in
+                completion(error == nil)
+            }
+        }
+
     }
 }

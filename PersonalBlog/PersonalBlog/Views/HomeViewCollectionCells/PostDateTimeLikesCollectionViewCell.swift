@@ -24,7 +24,7 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
     
     private let likeImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
+        imageView.image = UIImage(systemName: "basketball", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
         imageView.tintColor = .systemPurple
         return imageView
     }()
@@ -83,7 +83,7 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
         // likeImage
         isLiked = viewModel.isLiked
         if viewModel.isLiked {
-            let image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
+            let image = UIImage(systemName: "basketball.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
             likeImage.image = image
             likeImage.tintColor = .systemPurple
         }

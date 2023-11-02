@@ -11,6 +11,12 @@ class PostDetailViewController: UIViewController {
     private let post: BlogPost
     private let owner: String
     private var viewModel: PostDetailCellViewModel?
+    private var isLiked: Bool {
+        guard let currentUser = UserDefaults.standard.string(forKey: "username") else {
+            return false
+        }
+        return post.likers.contains(currentUser)
+    }
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -19,6 +25,18 @@ class PostDetailViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "bodyCell")
         tableView.register(PostDetailFooterTableViewCell.self, forCellReuseIdentifier: PostDetailFooterTableViewCell.identifier)
         return tableView
+    }()
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 5
+        stackView.backgroundColor = .systemBackground
+        stackView.layer.cornerRadius = 20
+        stackView.layer.borderWidth = 1
+        stackView.layer.borderColor = UIColor.systemPurple.cgColor
+        return stackView
     }()
     
     init(post: BlogPost, owner: String) {
@@ -33,10 +51,16 @@ class PostDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("\nisLiked: \(isLiked)\n")
+        
         view.backgroundColor = .systemBackground
         configureNavButtons()
         
         view.addSubview(tableView)
+        view.addSubview(stackView)
+        
+        configureStackView()
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -46,17 +70,58 @@ class PostDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let stackViewWidth: CGFloat = 90
+        stackView.frame = CGRect(x: (view.width-stackViewWidth)/2 , y: (view.height-view.safeAreaInsets.bottom-45), width: stackViewWidth, height: stackViewWidth/2)
+           
         tableView.frame = view.bounds
+        view.bringSubviewToFront(stackView)
+    }
+    
+    @objc private func didTapLike() {
+        // Think the button configuration
+        
+        DataBaseManager.shared.updateLike(
+            state: isLiked ? .like : .unlike,
+            postID: post.id,
+            owner: owner
+        ) {
+            success in
+            guard success else {
+                return
+            }
+            // update like state
+            print("The post likes updated")
+        }
     }
     
     @objc private func didTapShare() {
+        print("sharing the post")
+    }
+    
+    @objc private func didTapMore() {
+        print("more button tapped")
+    }
+    
+    private func configureStackView() {
+        let likeButton = UIButton()
+        let shareButton = UIButton()
+        let likeImage = UIImage(systemName: "basketball", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
+        let shareImage = UIImage(systemName: "paperplane", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
+        likeButton.setImage(likeImage, for: .normal)
+        likeButton.tintColor = .systemPurple
+        shareButton.setImage(shareImage, for: .normal)
+        shareButton.tintColor = .systemPurple
+        likeButton.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
         
+        stackView.addArrangedSubview(likeButton)
+        stackView.addArrangedSubview(shareButton)
     }
     
     private func configureNavButtons() {
-        let shareButtonImage = UIImage(systemName: "square.and.arrow.up")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal)
+        let shareButtonImage = UIImage(systemName: "ellipsis")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: shareButtonImage, style: .done, target: self, action: #selector(didTapShare))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: shareButtonImage, style: .done, target: self, action: #selector(didTapMore))
     }
     
     private func fetchPost() {
@@ -87,7 +152,7 @@ class PostDetailViewController: UIViewController {
                 completion(false)
                 return
             }
-            let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date)
+            let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date, isLiked: false)
             self?.viewModel = postData
             completion(true)
         }
