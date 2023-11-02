@@ -10,7 +10,7 @@ import UIKit
 class PostDetailViewController: UIViewController {
     private let post: BlogPost
     private let owner: String
-    private var viewModel: PostDetailHeaderCellViewModel?
+    private var viewModel: PostDetailCellViewModel?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -87,7 +87,7 @@ class PostDetailViewController: UIViewController {
                 completion(false)
                 return
             }
-            let postData = PostDetailHeaderCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString))
+            let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date)
             self?.viewModel = postData
             completion(true)
         }
@@ -106,6 +106,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Need to refactor the viewModel: [SinglePostCellType] -> header, body, footer
         let index = indexPath.row
         switch index {
         case 0:
@@ -141,6 +142,9 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             ) as? PostDetailFooterTableViewCell else {
                 fatalError()
             }
+            if let viewModel = self.viewModel{
+                cell.configure(with: viewModel)
+            }
             return cell
         default:
             fatalError()
@@ -153,11 +157,11 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return UITableView.automaticDimension
         case 1:
-            return 335
+            return 280
         case 2:
             return UITableView.automaticDimension
         case 3:
-            return UITableView.automaticDimension
+            return 100
         default:
             return UITableView.automaticDimension
         }

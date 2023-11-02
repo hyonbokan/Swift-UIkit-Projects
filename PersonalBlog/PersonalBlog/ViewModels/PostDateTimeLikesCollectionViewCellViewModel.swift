@@ -10,4 +10,5 @@ import Foundation
 struct PostDateTimeLikesCollectionViewCellViewModel {
     let date: Date
     let likers: [String]
+    let isLiked: Bool
 }

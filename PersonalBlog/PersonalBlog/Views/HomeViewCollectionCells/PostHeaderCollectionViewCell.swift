@@ -7,8 +7,17 @@
 import SDWebImage
 import UIKit
 
+protocol PostHeaderCollectionViewCellDelegate: AnyObject {
+    func postHeaderCollectionViewCellDidTapHeader(_ cell: PostHeaderCollectionViewCell, index: Int)
+}
+
 class PostHeaderCollectionViewCell: UICollectionViewCell {
+    
     static let identifier = "PostHeaderCollectionViewCell"
+    
+    weak var delegate: PostHeaderCollectionViewCellDelegate?
+    
+    private var index = 0
     
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -43,7 +52,7 @@ class PostHeaderCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func didTapHeaderElement() {
-        print("Header element tapped")
+        delegate?.postHeaderCollectionViewCellDidTapHeader(self, index: index)
     }
     
     override func layoutSubviews() {
@@ -75,7 +84,8 @@ class PostHeaderCollectionViewCell: UICollectionViewCell {
         usernameLabel.text = nil
     }
     
-    func configure(with viewModel: PostHeaderCollectionViewCellViewModel) {
+    func configure(with viewModel: PostHeaderCollectionViewCellViewModel, index: Int) {
+        self.index = index
         usernameLabel.text = viewModel.username
         profileImage.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
     }

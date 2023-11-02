@@ -124,7 +124,7 @@ class HomeViewController: UIViewController {
                 group.enter()
                 self.createViewModel(
                     model: model.post,
-                    email: model.owner
+                    username: model.owner
                 ) { success in
                     defer {
                         group.leave()
@@ -144,19 +144,22 @@ class HomeViewController: UIViewController {
     
     private func createViewModel(
         model: BlogPost,
-        email: String,
+        username: String,
         completion: @escaping (Bool) -> Void
     ) {
-        StorageManager.shared.getProfilePictureUrl(for: email) { [weak self] url in
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
+        StorageManager.shared.getProfilePictureUrl(for: username) { [weak self] url in
             guard let postUrl = URL(string: model.postUrlString),
                   let profilePictureUrl = url else {
                 print("Could not get profile picture from storage")
                 return
             }
+            let isLiked = model.likers.contains(currentUsername)
+            
             let postData: [HomeCollectionCellTypes] = [
                 .header(
                     viewModel: PostHeaderCollectionViewCellViewModel(
-                        username: email,
+                        username: username,
                         profileImageUrl: profilePictureUrl
                     )
                 ),
@@ -169,7 +172,8 @@ class HomeViewController: UIViewController {
                 .actions(
                     viewModel: PostDateTimeLikesCollectionViewCellViewModel(
                         date: model.date,
-                        likers: model.likers
+                        likers: model.likers, 
+                        isLiked: true // change based to isLiked
                     )
                 )
             ]
@@ -242,7 +246,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? PostHeaderCollectionViewCell else {
                 fatalError()
             }
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.section )
+            cell.delegate = self
             return cell
         
         case .body(let viewModel):
@@ -278,5 +283,13 @@ extension HomeViewController: PostBodyCollectionViewCellDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+extension HomeViewController: PostHeaderCollectionViewCellDelegate {
+    func postHeaderCollectionViewCellDidTapHeader(_ cell: PostHeaderCollectionViewCell, index: Int) {
+        let tuple = allPosts[index]
+        let vc = ProfileViewController(user: User(name: tuple.owner, email: tuple.owner))
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }

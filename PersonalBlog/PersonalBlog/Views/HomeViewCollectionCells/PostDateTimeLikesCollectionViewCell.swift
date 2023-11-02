@@ -10,6 +10,10 @@ import UIKit
 class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
     static let identifier = "PostDateTimeLikesCollectionViewCell"
     
+    private var index = 0
+    
+    private var isLiked = false
+    
     private let timestamp: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
@@ -73,7 +77,17 @@ class PostDateTimeLikesCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with viewModel: PostDateTimeLikesCollectionViewCellViewModel) {
+        // timestamp
         timestamp.text = .date(from: viewModel.date)
+        
+        // likeImage
+        isLiked = viewModel.isLiked
+        if viewModel.isLiked {
+            let image = UIImage(systemName: "heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
+            likeImage.image = image
+            likeImage.tintColor = .systemPurple
+        }
+        // likeCountLabel
         let likeCount = viewModel.likers
         if likeCount.isEmpty {
             likeCountLabel.text = "0"

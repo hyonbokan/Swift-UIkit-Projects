@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct PostDetailHeaderCellViewModel {
+struct PostDetailCellViewModel {
     let title: String
     let username: String
     let profilePictureUrl: URL?
     let postImage: URL?
+    let date: Date
+//    let userEmail: String
 }
