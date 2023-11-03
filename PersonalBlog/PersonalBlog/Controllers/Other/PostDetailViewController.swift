@@ -11,12 +11,15 @@ class PostDetailViewController: UIViewController {
     private let post: BlogPost
     private let owner: String
     private var viewModel: PostDetailCellViewModel?
-    private var isLiked: Bool {
-        guard let currentUser = UserDefaults.standard.string(forKey: "username") else {
-            return false
-        }
-        return post.likers.contains(currentUser)
-    }
+    
+//    private var isLiked: Bool {
+//        guard let username = UserDefaults.standard.string(forKey: "username") else {
+//            return false
+//        }
+//        return post.likers.contains(username)
+//    }
+    
+    private var isLiked: Bool = false
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -31,13 +34,13 @@ class PostDetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 5
         stackView.backgroundColor = .systemBackground
         stackView.layer.cornerRadius = 20
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor.systemPurple.cgColor
         return stackView
     }()
+    
     
     init(post: BlogPost, owner: String) {
         self.post = post
@@ -52,50 +55,28 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("\nisLiked: \(isLiked)\n")
-        
         view.backgroundColor = .systemBackground
         configureNavButtons()
+        fetchPost()
         
         view.addSubview(tableView)
         view.addSubview(stackView)
-        
         configureStackView()
+        
         tableView.delegate = self
         tableView.dataSource = self
         
-        fetchPost()
+        
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let stackViewWidth: CGFloat = 90
-        stackView.frame = CGRect(x: (view.width-stackViewWidth)/2 , y: (view.height-view.safeAreaInsets.bottom-45), width: stackViewWidth, height: stackViewWidth/2)
+        let stackViewWidth: CGFloat = 100
+        stackView.frame = CGRect(x: (view.width-stackViewWidth)/2 , y: (view.height-view.safeAreaInsets.bottom-55), width: stackViewWidth, height: stackViewWidth/2.5)
            
         tableView.frame = view.bounds
         view.bringSubviewToFront(stackView)
-    }
-    
-    @objc private func didTapLike() {
-        // Think the button configuration
-        
-        DataBaseManager.shared.updateLike(
-            state: isLiked ? .like : .unlike,
-            postID: post.id,
-            owner: owner
-        ) {
-            success in
-            guard success else {
-                return
-            }
-            // update like state
-            print("The post likes updated")
-        }
-    }
-    
-    @objc private func didTapShare() {
-        print("sharing the post")
     }
     
     @objc private func didTapMore() {
@@ -104,18 +85,49 @@ class PostDetailViewController: UIViewController {
     
     private func configureStackView() {
         let likeButton = UIButton()
-        let shareButton = UIButton()
         let likeImage = UIImage(systemName: "basketball", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
-        let shareImage = UIImage(systemName: "paperplane", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
         likeButton.setImage(likeImage, for: .normal)
         likeButton.tintColor = .systemPurple
+        
+        let shareButton = UIButton()
+        let shareImage = UIImage(systemName: "paperplane", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
         shareButton.setImage(shareImage, for: .normal)
         shareButton.tintColor = .systemPurple
-        likeButton.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
-        shareButton.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
         
         stackView.addArrangedSubview(likeButton)
         stackView.addArrangedSubview(shareButton)
+        
+        likeButton.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
+    }
+    
+    @objc private func didTapLike() {
+        print("liking the post")
+        DataBaseManager.shared.updateLike(
+            state: isLiked ? .unlike : .like,
+            postID: post.id,
+            owner: owner) { [weak self] success in
+                guard success,
+                      let strongSelf = self else {
+                    return
+                }
+                strongSelf.isLiked = !strongSelf.isLiked
+                self?.configureLikeButton()
+                print("\nisLiked after liking post data: \(strongSelf.isLiked)\n")
+            }
+    }
+    
+    @objc private func didTapShare() {
+        print("sharing the post")
+    }
+    
+    
+    private func configureLikeButton() {
+        let imageName = isLiked ? "basketball.fill" : "basketball"
+        let likeImage = UIImage(systemName: imageName, withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
+        if let likeButton = stackView.arrangedSubviews[0] as? UIButton {
+            likeButton.setImage(likeImage, for: .normal)
+        }
     }
     
     private func configureNavButtons() {
@@ -125,20 +137,34 @@ class PostDetailViewController: UIViewController {
     }
     
     private func fetchPost() {
-        let username = owner
-        let post = self.post
-        DataBaseManager.shared.getPosts(username: username) { [weak self] posts in
-//            print("Detail Posts -> posts fetched: \(posts)")
-            self?.createViewModel(model: post, username: username, completion: { success in
-                guard success else {
-                    print("Failed to create viewModel for PostDetailViewModel")
-                    return
-                }
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            })
-            
+//        let username = owner
+//        let post = self.post
+//        DataBaseManager.shared.getPosts(username: username) { [weak self] posts in
+////            print("Detail Posts -> posts fetched: \(posts)")
+//            self?.createViewModel(model: post, username: username, completion: { success in
+//                guard success else {
+//                    print("Failed to create viewModel for PostDetailViewModel")
+//                    return
+//                }
+//                DispatchQueue.main.async {
+////                    self?.isLiked = post.likers.contains(username)
+//                    self?.tableView.reloadData()
+//                    print("\nisLiked after fetch post data: \(self?.isLiked)\n")
+//                }
+//            })
+//            
+//        }
+        
+        createViewModel(model: post, username: owner) { [weak self] success in
+            guard success else {
+                print("Failed to create viewModel for PostDetailViewModel")
+                return
+            }
+            DispatchQueue.main.async {
+                self?.configureLikeButton()
+                self?.tableView.reloadData()
+                print("\nisLiked after fetching post data: \(self?.isLiked)\n")
+            }
         }
     }
     
@@ -148,12 +174,15 @@ class PostDetailViewController: UIViewController {
         completion: @escaping (Bool) -> Void
     ) {
         StorageManager.shared.getProfilePictureUrl(for: username) { [weak self] url in
-            guard let profilePhotoUrl = url else {
+            guard let profilePhotoUrl = url
+            else {
                 completion(false)
                 return
             }
-            let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date, isLiked: false)
+            var isLiked = model.likers.contains(username)
+            let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date, isLiked: isLiked)
             self?.viewModel = postData
+            self?.isLiked = postData.isLiked
             completion(true)
         }
     }

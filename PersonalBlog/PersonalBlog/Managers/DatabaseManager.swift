@@ -185,6 +185,7 @@ final class DataBaseManager {
                 completion(false)
                 return
             }
+            print("\n current like state: \(state)")
             switch state {
             case .like:
                 if !post.likers.contains(currentUsername) {

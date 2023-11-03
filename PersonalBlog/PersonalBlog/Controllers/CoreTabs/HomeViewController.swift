@@ -81,9 +81,9 @@ class HomeViewController: UIViewController {
     
     private func fetchData() {
         spinner.startAnimating()
-        guard let username = UserDefaults.standard.string(forKey: "username") else {
-            return
-        }
+//        guard let username = UserDefaults.standard.string(forKey: "username") else {
+//            return
+//        }
         let userGroup = DispatchGroup()
         userGroup.enter()
 
