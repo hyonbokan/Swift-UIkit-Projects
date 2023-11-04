@@ -30,3 +30,15 @@ This repository contains a collection of projects built using SwiftUI. Each proj
 - **Data Modeling**: A fundamental aspect of this project is creating and defining structures for Airbnb listings.
 
 - **User Interface**: The app presents a list of Airbnb listings in New York, providing essential information such as photos, listing details, and host information.
+
+### 3. Personal Blog
+
+<p float="left">
+  <img src="Project_img/PresonalBlog/1.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/PresonalBlog/2.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/PresonalBlog/3.png" width="200" style="margin-right: 10px;" /> 
+  <img src="Project_img/PresonalBlog/4.png"width="200" style="margin-right: 10px;" />
+  <img src="Project_img/PresonalBlog/5.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/PresonalBlog/6.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/PresonalBlog/7.png" width="200" style="margin-right: 10px;" />
+</p>
