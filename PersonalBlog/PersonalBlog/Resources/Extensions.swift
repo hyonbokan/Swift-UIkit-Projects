@@ -37,6 +37,12 @@ extension UIView {
 extension DateFormatter {
     static let formatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy 'at' HH:mm"
+        return formatter
+    }()
+    
+    static let originalFormatter: DateFormatter = {
+        let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter

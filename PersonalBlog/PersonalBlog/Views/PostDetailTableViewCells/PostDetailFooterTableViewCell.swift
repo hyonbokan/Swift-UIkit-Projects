@@ -86,7 +86,8 @@ class PostDetailFooterTableViewCell: UITableViewCell {
         profileImage.sd_setImage(with: viewModel.profilePictureUrl, completed: nil)
         usernameLabel.text = viewModel.username
 //        emailLabel.text = viewModel.userEmail
-        dateLabel.text = .date(from: viewModel.date)
+        let date = viewModel.date
+        dateLabel.text = .date(from: date)
     }
 
 }

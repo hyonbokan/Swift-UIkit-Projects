@@ -68,7 +68,6 @@ class HomeViewController: UIViewController {
     
     @objc private func didTapCreatePost() {
         // Make sure to update collectionView with vc completion
-        print("cellViewModels: \(cellViewModels.count)")
         let vc = CreateNewPostViewController()
         vc.completion = { [weak self] in
             self?.allPosts = []
@@ -81,9 +80,7 @@ class HomeViewController: UIViewController {
     
     private func fetchData() {
         spinner.startAnimating()
-//        guard let username = UserDefaults.standard.string(forKey: "username") else {
-//            return
-//        }
+        
         let userGroup = DispatchGroup()
         userGroup.enter()
 
@@ -104,6 +101,7 @@ class HomeViewController: UIViewController {
                         switch result {
                         case .success(let posts):
                             print("\n\(user) post count: \(posts.count)\n")
+//                            print(posts)
                             allPosts.append(contentsOf: posts.compactMap({
                                 (post: $0, owner: user)
                             }))
@@ -278,6 +276,12 @@ extension HomeViewController: PostBodyCollectionViewCellDelegate {
     func postBodyCollectionViewCellDidTapBodyElement(_ cell: PostBodyCollectionViewCell, index: Int) {
         let tuple = allPosts[index]
         let vc = PostDetailViewController(post: tuple.post, owner: tuple.owner)
+        vc.completion = { [weak self] in
+            self?.allPosts = []
+            self?.cellViewModels = []
+            self?.fetchData()
+            self?.collectionView?.reloadData()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

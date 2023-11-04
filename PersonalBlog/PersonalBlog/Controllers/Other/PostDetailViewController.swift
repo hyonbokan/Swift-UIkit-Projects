@@ -8,17 +8,14 @@
 import UIKit
 
 class PostDetailViewController: UIViewController {
+    var completion: (() -> Void)?
+    
     private let post: BlogPost
+    
     private let owner: String
+    
     private var viewModel: PostDetailCellViewModel?
-    
-//    private var isLiked: Bool {
-//        guard let username = UserDefaults.standard.string(forKey: "username") else {
-//            return false
-//        }
-//        return post.likers.contains(username)
-//    }
-    
+
     private var isLiked: Bool = false
     
     private let tableView: UITableView = {
@@ -102,7 +99,6 @@ class PostDetailViewController: UIViewController {
     }
     
     @objc private func didTapLike() {
-        print("liking the post")
         DataBaseManager.shared.updateLike(
             state: isLiked ? .unlike : .like,
             postID: post.id,
@@ -113,12 +109,18 @@ class PostDetailViewController: UIViewController {
                 }
                 strongSelf.isLiked = !strongSelf.isLiked
                 self?.configureLikeButton()
+                self?.completion?()
                 print("\nisLiked after liking post data: \(strongSelf.isLiked)\n")
             }
     }
     
     @objc private func didTapShare() {
         print("sharing the post")
+        let vc = UIActivityViewController(
+            activityItems: ["Sharing from PersonalBlog", post.postUrlString],
+            applicationActivities: []
+        )
+        present(vc, animated: true)
     }
     
     
@@ -179,7 +181,7 @@ class PostDetailViewController: UIViewController {
                 completion(false)
                 return
             }
-            var isLiked = model.likers.contains(username)
+            let isLiked = model.likers.contains(username)
             let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date, isLiked: isLiked)
             self?.viewModel = postData
             self?.isLiked = postData.isLiked
