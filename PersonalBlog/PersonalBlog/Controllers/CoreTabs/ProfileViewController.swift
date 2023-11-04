@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController {
     
     private var observer: NSObjectProtocol?
     
+    let refreshControl = UIRefreshControl()
+    
     private var isCurrentUser: Bool {
         return user.name == UserDefaults.standard.string(forKey: "username")
     }
@@ -42,13 +44,15 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Sign Out",
-            style: .done,
-            target: self,
-            action: #selector(didTapSignOUt)
-        )
+        refreshControl.addTarget(self, action: #selector(didReshresh), for: .valueChanged)
+        if isCurrentUser {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                title: "Sign Out",
+                style: .done,
+                target: self,
+                action: #selector(didTapSignOUt)
+            )
+        }
         configureCollectionView()
         setupSpinner()
         fetchData()
@@ -89,6 +93,17 @@ class ProfileViewController: UIViewController {
             }
         }))
         present(ac, animated: true)
+    }
+    
+    @objc private func didReshresh() {
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.headerViewModel = nil
+            self?.posts = []
+            self?.fetchData()
+            self?.collectionView?.reloadData()
+        }
+        refreshControl.endRefreshing()
     }
     
     private func setupSpinner() {
@@ -188,6 +203,7 @@ class ProfileViewController: UIViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
         
+        collectionView.refreshControl = self.refreshControl
         self.collectionView = collectionView
     }
 }

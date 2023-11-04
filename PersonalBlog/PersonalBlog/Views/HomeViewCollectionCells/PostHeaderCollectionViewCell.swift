@@ -87,6 +87,12 @@ class PostHeaderCollectionViewCell: UICollectionViewCell {
     func configure(with viewModel: PostHeaderCollectionViewCellViewModel, index: Int) {
         self.index = index
         usernameLabel.text = viewModel.username
-        profileImage.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
+        if viewModel.profileImageUrl == nil {
+            let image = UIImage(systemName: "person")
+            profileImage.image = image
+            profileImage.tintColor = .systemPurple
+        } else {
+            profileImage.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
+        }
     }
 }

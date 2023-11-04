@@ -14,6 +14,8 @@ class PostDetailViewController: UIViewController {
     
     private let owner: String
     
+    private let username = UserDefaults.standard.string(forKey: "username")
+    
     private var viewModel: PostDetailCellViewModel?
 
     private var isLiked: Bool = false
@@ -158,6 +160,9 @@ class PostDetailViewController: UIViewController {
 //        }
         
         createViewModel(model: post, username: owner) { [weak self] success in
+            guard let isLiked = self?.isLiked else {
+                return
+            }
             guard success else {
                 print("Failed to create viewModel for PostDetailViewModel")
                 return
@@ -165,7 +170,7 @@ class PostDetailViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.configureLikeButton()
                 self?.tableView.reloadData()
-                print("\nisLiked after fetching post data: \(self?.isLiked)\n")
+                print("isLiked after fetch: \(isLiked)")
             }
         }
     }
@@ -176,12 +181,16 @@ class PostDetailViewController: UIViewController {
         completion: @escaping (Bool) -> Void
     ) {
         StorageManager.shared.getProfilePictureUrl(for: username) { [weak self] url in
-            guard let profilePhotoUrl = url
+            guard let profilePhotoUrl = url,
+                  let currentUser = self?.username
             else {
                 completion(false)
                 return
             }
-            let isLiked = model.likers.contains(username)
+            print("Who liked the post: \(model.likers)")
+            print("currentUser: \(currentUser)")
+            
+            let isLiked = model.likers.contains(currentUser)
             let postData = PostDetailCellViewModel(title: model.title, username: username, profilePictureUrl: profilePhotoUrl, postImage: URL(string: model.postUrlString), date: model.date, isLiked: isLiked)
             self?.viewModel = postData
             self?.isLiked = postData.isLiked

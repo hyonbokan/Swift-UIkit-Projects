@@ -10,6 +10,8 @@ class HomeViewController: UIViewController {
     
     private var allPosts: [(post: BlogPost, owner: String)] = []
     
+    private var observer: NSObjectProtocol?
+    
     private let createPostButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "square.and.pencil", withConfiguration: UIImage.SymbolConfiguration(pointSize: 35))
@@ -37,14 +39,30 @@ class HomeViewController: UIViewController {
     
     private var cellViewModels = [[HomeCollectionCellTypes]]()
     
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl.addTarget(self, action: #selector(didReshresh), for: .valueChanged)
+        
         view.backgroundColor = .systemBackground
         view.addSubview(createPostButton)
         createPostButton.addTarget(self, action: #selector(didTapCreatePost), for: .touchUpInside)
         configureCollectionView()
         setupSpinner()
         fetchData()
+        
+        observer = NotificationCenter.default.addObserver(
+            forName: .didPostNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.allPosts = []
+            self?.cellViewModels = []
+            self?.fetchData()
+            self?.collectionView?.reloadData()
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,6 +82,17 @@ class HomeViewController: UIViewController {
         view.addSubview(spinner)
         spinner.center = view.center
         spinner.color = .systemPurple
+    }
+    
+    @objc private func didReshresh() {
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.allPosts = []
+            self?.cellViewModels = []
+            self?.fetchData()
+            self?.collectionView?.reloadData()
+        }
+        refreshControl.endRefreshing()
     }
     
     @objc private func didTapCreatePost() {
@@ -133,6 +162,7 @@ class HomeViewController: UIViewController {
                 }
             }
             group.notify(queue: .main) {
+                self.sortData()
                 self.collectionView?.reloadData()
                 self.spinner.stopAnimating()
             }
@@ -147,9 +177,10 @@ class HomeViewController: UIViewController {
     ) {
         guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
         StorageManager.shared.getProfilePictureUrl(for: username) { [weak self] url in
-            guard let postUrl = URL(string: model.postUrlString),
-                  let profilePictureUrl = url else {
-                print("Could not get profile picture from storage")
+            guard let postUrl = URL(string: model.postUrlString)
+//                  let profilePictureUrl = url
+            else {
+//                print("Could not get profile picture from storage")
                 return
             }
             let isLiked = model.likers.contains(currentUsername)
@@ -158,7 +189,7 @@ class HomeViewController: UIViewController {
                 .header(
                     viewModel: PostHeaderCollectionViewCellViewModel(
                         username: username,
-                        profileImageUrl: profilePictureUrl
+                        profileImageUrl: url
                     )
                 ),
                 .body(
@@ -179,6 +210,41 @@ class HomeViewController: UIViewController {
             completion(true)
         }
         
+    }
+    
+    private func sortData() {
+        allPosts = allPosts.sorted(by: { first, second in
+            let date1 = first.post.date
+            let date2 = second.post.date
+            return date1 > date2
+        })
+        
+        cellViewModels = cellViewModels.sorted(by: { first, second in
+            var date1: Date?
+            var date2: Date?
+            first.forEach { type in
+                switch type {
+                case .actions(let vm):
+                    date1 = vm.date
+                default:
+                    break
+                }
+            }
+            second.forEach { type in
+                switch type {
+                case .actions(let vm):
+                    date2 = vm.date
+                default:
+                    break
+                }
+            }
+
+            if let date1 = date1, let date2 = date2 {
+                return date1 > date2
+            }
+
+            return false
+        })
     }
     
     private func configureCollectionView() {
@@ -217,9 +283,8 @@ class HomeViewController: UIViewController {
         
         collectionView.register(PostDateTimeLikesCollectionViewCell.self, forCellWithReuseIdentifier: PostDateTimeLikesCollectionViewCell.identifier)
 
+        collectionView.refreshControl = self.refreshControl
         self.collectionView = collectionView
-        
-
     }
 }
 
