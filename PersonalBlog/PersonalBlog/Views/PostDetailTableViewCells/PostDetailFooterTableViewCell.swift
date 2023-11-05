@@ -6,16 +6,21 @@
 //
 import SDWebImage
 import UIKit
-
+protocol PostDetailFooterTableViewCellDelegate: AnyObject {
+    func postDetailFooterTableViewCellDidTapUserImage(_ cell: PostDetailFooterTableViewCell)
+}
 class PostDetailFooterTableViewCell: UITableViewCell {
 
     static let identifier = "PostDetailFooterTableViewCell"
+    
+    weak var delegate: PostDetailFooterTableViewCellDelegate?
     
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.image = UIImage(systemName: "person")
         imageView.contentMode = .scaleAspectFill
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -50,6 +55,8 @@ class PostDetailFooterTableViewCell: UITableViewCell {
         addSubview(profileImage)
         addSubview(usernameLabel)
 //        addSubview(emailLabel)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapUserImage))
+        profileImage.addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
@@ -80,6 +87,10 @@ class PostDetailFooterTableViewCell: UITableViewCell {
         
         dateLabel.frame = CGRect(x: 10, y: profileImage.bottom+5, width: dateLabel.width, height: dateLabel.height)
         
+    }
+    
+    @objc private func didTapUserImage() {
+        delegate?.postDetailFooterTableViewCellDidTapUserImage(self)
     }
     
     func configure(with viewModel: PostDetailCellViewModel) {

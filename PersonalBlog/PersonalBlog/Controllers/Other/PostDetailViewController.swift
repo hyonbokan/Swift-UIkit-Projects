@@ -250,6 +250,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             if let viewModel = self.viewModel{
                 cell.configure(with: viewModel)
             }
+            cell.delegate = self
             return cell
         default:
             fatalError()
@@ -272,4 +273,11 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+}
+
+extension PostDetailViewController: PostDetailFooterTableViewCellDelegate {
+    func postDetailFooterTableViewCellDidTapUserImage(_ cell: PostDetailFooterTableViewCell) {
+        let vc = ProfileViewController(user: User(name: owner, email: owner))
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

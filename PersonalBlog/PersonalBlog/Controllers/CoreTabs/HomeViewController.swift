@@ -184,7 +184,6 @@ class HomeViewController: UIViewController {
                 return
             }
             let isLiked = model.likers.contains(currentUsername)
-            
             let postData: [HomeCollectionCellTypes] = [
                 .header(
                     viewModel: PostHeaderCollectionViewCellViewModel(
