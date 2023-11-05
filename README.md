@@ -8,6 +8,17 @@ This repository contains a collection of projects built using SwiftUI. Each proj
 
 **ToDoList** is a task management application that allows users to efficiently manage their daily tasks. 
 
+#### Demo:
+
+<p float="left">
+  <img src="Project_img/ToDolist/1.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDolist/2.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDolist/3.png" width="200" style="margin-right: 10px;" /> 
+  <img src="Project_img/ToDolist/4.png"width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDolist/5.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDolist/demo.gif" width="200" style="margin-right: 10px;" />
+</p>
+
 #### Key Features:
 
 - **User Authentication**: Users can easily register and log in to the app. Authentication is securely handled using Firebase Auth.
@@ -47,7 +58,7 @@ This repository contains a collection of projects built using SwiftUI. Each proj
   <img src="Project_img/PersonalBlog/demovideo.gif" width="200" style="margin-right: 10px;" />
 </p>
 
-## Key Features
+#### Key Features:
 
 - User authentication
 - Real-time database interactions
@@ -56,13 +67,8 @@ This repository contains a collection of projects built using SwiftUI. Each proj
 - Custom collection and table view cells
 - MVVM Design Pattern
 
-In the development of **PersonalBlog**, I put a strong emphasis on refining the user experience and implementing advanced customizations. 
-- **Concurrent User Retrieval**: I utilized DispatchGroup to coordinate concurrent operations. Inside this group, the app first fetches all user data from the data, and the defer statement ensures that it exits the group once the user data is obtained.
-
-- **Parallel Post Retrieval**: To maximize performance, I used Swift's `DispatchG` construct. This allows us to fetch posts for each user in parallel, reducing the overall time required to obtain the necessary data. 
-
-- **Efficient View Model Creation**: We also leverage asynchronous tasks to create view models for each post. This approach ensures that the UI remains responsive, even when dealing with a large number of posts.
-
-- **UI Update on the Main Queue**: To maintain a seamless user interface, we wisely use `DispatchQueue.main.async` to update the UI on the main queue once all asynchronous tasks have completed. This ensures that the user sees the most up-to-date content without any delays or interruptions.
-
-By implementing these advanced asynchronous data retrieval techniques, we've optimized the performance of our app, providing users with a smoother and more responsive experience when interacting with their blog posts and content. This is just one example of how we've prioritized efficiency and user satisfaction in our project.
+In the development of **PersonalBlog**, I put a strong emphasis on refining the user experience and implementing advanced customizations. Below are the key conceps I practiced: 
+- **Concurrent User Retrieval**: retrieving user data concurrently, ensuring a smooth user experience.
+- **Parallel Post Retrieval**: fetching blog posts for each user in parallel, reducing overall data retrieval time.
+- **View Model Creation**: creating view models for blog posts concurrently, ensuring a responsive user interface.
+- **UI Update on the Main Queue**: updating the user interface on the main queue to maintain responsiveness and provide up-to-date content.
