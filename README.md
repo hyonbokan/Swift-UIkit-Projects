@@ -11,12 +11,12 @@ This repository contains a collection of projects built using SwiftUI. Each proj
 #### Demo:
 
 <p float="left">
-  <img src="Project_img/ToDolist/1.png" width="200" style="margin-right: 10px;" />
-  <img src="Project_img/ToDolist/2.png" width="200" style="margin-right: 10px;" />
-  <img src="Project_img/ToDolist/3.png" width="200" style="margin-right: 10px;" /> 
-  <img src="Project_img/ToDolist/4.png"width="200" style="margin-right: 10px;" />
-  <img src="Project_img/ToDolist/5.png" width="200" style="margin-right: 10px;" />
-  <img src="Project_img/ToDolist/demo.gif" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDoList/1.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDoList/2.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDoList/3.png" width="200" style="margin-right: 10px;" /> 
+  <img src="Project_img/ToDoList/4.png"width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDoList/5.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/ToDoList/demo.gif" width="200" style="margin-right: 10px;" />
 </p>
 
 #### Key Features:
@@ -33,6 +33,13 @@ This repository contains a collection of projects built using SwiftUI. Each proj
 ### 2. Airbnb
 
 **Airbnb** offers a simplified version of the popular Airbnb platform. This project was designed to provide a hands-on learning experience, focusing on API integration, data modeling, and creating a user interface using SwiftUI.
+
+#### Demo:
+<p float="left">
+  <img src="Project_img/Airbnb/1.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/Airbnb/2.png" width="200" style="margin-right: 10px;" />
+  <img src="Project_img/Airbnb/3.png" width="200" style="margin-right: 10px;" /> 
+</p>
 
 #### Key Features:
 
