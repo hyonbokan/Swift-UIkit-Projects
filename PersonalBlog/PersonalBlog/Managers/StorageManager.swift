@@ -52,4 +52,17 @@ final class StorageManager {
         }
     }
     
+    public func deletePost(
+        postID: String,
+        username: String
+    ) {
+        let ref = storage.child("\(username)/posts/\(postID)")
+        ref.delete { error in
+            if let error = error {
+                print("the post image is not stored in the storage")
+            } else {
+                print("post deleted from storage")
+            }
+        }
+    }
 }

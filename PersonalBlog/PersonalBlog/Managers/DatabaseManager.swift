@@ -207,4 +207,28 @@ final class DataBaseManager {
         }
 
     }
+    
+    public func deletePost(postID: String, completion: @escaping (Bool) -> Void
+    ) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
+        
+        let firebaseRef = database
+            .collection("users")
+            .document(currentUsername)
+            .collection("posts")
+            .document(postID)
+        
+        firebaseRef.delete { error in
+            if let error = error {
+                print("\n Could not delete the post from DB")
+                completion(false)
+            } else {
+                StorageManager.shared.deletePost(postID: postID, username: currentUsername)
+                print("\n Post was deleted the post from DB")
+                completion(true)
+            }
+        }
+
+        
+    }
 }

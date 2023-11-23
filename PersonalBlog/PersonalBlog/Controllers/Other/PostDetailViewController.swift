@@ -78,10 +78,6 @@ class PostDetailViewController: UIViewController {
         view.bringSubviewToFront(stackView)
     }
     
-    @objc private func didTapMore() {
-        print("more button tapped")
-    }
-    
     private func configureStackView() {
         let likeButton = UIButton()
         let likeImage = UIImage(systemName: "basketball", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))
@@ -125,6 +121,20 @@ class PostDetailViewController: UIViewController {
         present(vc, animated: true)
     }
     
+    @objc private func didTapDelete() {
+        DataBaseManager.shared.deletePost(postID: post.id) { [weak self] result in
+            if result {
+                DispatchQueue.main.async {
+                    let vc = TabBarViewController()
+                    vc.modalPresentationStyle = .fullScreen
+                    self?.present(vc, animated: true)
+                }
+            } else {
+                print("Error: Couldn't delete post")
+            }
+        }
+    }
+    
     
     private func configureLikeButton() {
         let imageName = isLiked ? "basketball.fill" : "basketball"
@@ -135,30 +145,14 @@ class PostDetailViewController: UIViewController {
     }
     
     private func configureNavButtons() {
-        let shareButtonImage = UIImage(systemName: "ellipsis")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: shareButtonImage, style: .done, target: self, action: #selector(didTapMore))
+        if username == owner {
+            let deleteImage = UIImage(systemName: "trash")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal)
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: deleteImage, style: .done, target: self, action: #selector(didTapDelete))
+        }
     }
     
     private func fetchPost() {
-//        let username = owner
-//        let post = self.post
-//        DataBaseManager.shared.getPosts(username: username) { [weak self] posts in
-////            print("Detail Posts -> posts fetched: \(posts)")
-//            self?.createViewModel(model: post, username: username, completion: { success in
-//                guard success else {
-//                    print("Failed to create viewModel for PostDetailViewModel")
-//                    return
-//                }
-//                DispatchQueue.main.async {
-////                    self?.isLiked = post.likers.contains(username)
-//                    self?.tableView.reloadData()
-//                    print("\nisLiked after fetch post data: \(self?.isLiked)\n")
-//                }
-//            })
-//            
-//        }
-        
         createViewModel(model: post, username: owner) { [weak self] success in
             guard let isLiked = self?.isLiked else {
                 return
@@ -211,7 +205,6 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Need to refactor the viewModel: [SinglePostCellType] -> header, body, footer
         let index = indexPath.row
         switch index {
         case 0:

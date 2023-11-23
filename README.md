@@ -24,7 +24,7 @@ This repository contains a collection of projects built using `UIkit`. Each proj
 
 - User authentication
 - Real-time database interactions
-- Image, post uploads
+- Image, post upload and delete to storage and database
 - Post like status and updates
 - Custom collection and table view cells
 - MVVM Design Pattern
